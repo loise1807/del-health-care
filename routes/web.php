@@ -117,3 +117,5 @@ Route::delete('/pengurus/riwayatpenyakits/{riwayatPenyakit}',[Dokterriwayatpenya
 Route::get('/pengurus/riwayatpenyakits/{riwayatPenyakit}/edit',[DokterriwayatpenyakitController::class,'edit'])->middleware('pengurus');
 
 Route::get('/mahasiswa/profile', [ProfileController::class,'indexMahasiswa'])->middleware('mahasiswa');
+Route::get('/mahasiswa/profile/{mahasiswa}', [ProfileController::class,'editMahasiswa'])->middleware('mahasiswa');
+Route::put('/mahasiswa/profile/{mahasiswa}', [ProfileController::class,'updateMahasiswa'])->middleware('mahasiswa');

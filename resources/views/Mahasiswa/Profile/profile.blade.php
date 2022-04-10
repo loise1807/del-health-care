@@ -4,9 +4,9 @@
 
 <div class="container mt-5  ">
 
-  @if(session()->has('success-create'))
+  @if(session()->has('success-change'))
       <div class="alert alert-success col-lg-3" role="alert">
-        {{ session('success-create') }}
+        {{ session('success-change') }}
       </div>
       @elseif(session()->has('success-edit'))
       <div class="alert alert-warning col-lg-3" role="alert">
@@ -102,7 +102,7 @@
                 <div>
                   <div class="col-md-6">
                     <p class="card-text"><small class="text-muted">Last updated {{ $mahasiswa->updated_at->diffForHumans() }}</small></p>
-                    <a href="/mahasiswa/profile/{{ $mahasiswa->id }}" class="btn btn-success text-dark">Ubah Data</a>
+                    <a href="/mahasiswa/profile/{{ $mahasiswa->id }}" class="btn btn-success text-white">Ubah Data</a>
                   </div>
                 </div>
       

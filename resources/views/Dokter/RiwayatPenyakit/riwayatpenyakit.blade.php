@@ -11,7 +11,7 @@
       {{ session('success') }}
     </div>
     @endif
-    <a href="/dokter/riwayatpenyakits/create" class="btn btn-secondary mb-3"><i class="bi bi-file-medical"></i> Tambah Riwayat Penyakit</a>
+    <a href="/dokter/riwayatpenyakits/create" class="btn btn-success mb-3"><i class="bi bi-file-medical"></i> Tambah Riwayat Penyakit</a>
       <table class="table table-striped table-sm">
         <thead>
           <tr>

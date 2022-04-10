@@ -111,11 +111,34 @@ Route::resource('mahasiswa/riwayatpenyakits', RiwayatPenyakitController::class)-
 Route::resource('pengurus/rekmeds', RekamMedisController::class)->middleware('pengurus');
 // Route::resource('pengurus/rekmeds', RekamMedisController::class)->middleware('auth');
 
+// Pengurus - Riwayat Penyakit
 Route::resource('/pengurus/riwayatpenyakits', DokterriwayatpenyakitController::class)->except('show','destroy','edit')->middleware('pengurus');
 Route::get('/pengurus/riwayatpenyakits/{riwayatPenyakit}',[DokterriwayatpenyakitController::class,'show'])->middleware('pengurus');
 Route::delete('/pengurus/riwayatpenyakits/{riwayatPenyakit}',[DokterriwayatpenyakitController::class,'destroy'])->middleware('pengurus');
 Route::get('/pengurus/riwayatpenyakits/{riwayatPenyakit}/edit',[DokterriwayatpenyakitController::class,'edit'])->middleware('pengurus');
 
+// Mahasiswa - Profile
 Route::get('/mahasiswa/profile', [ProfileController::class,'indexMahasiswa'])->middleware('mahasiswa');
 Route::get('/mahasiswa/profile/{mahasiswa}', [ProfileController::class,'editMahasiswa'])->middleware('mahasiswa');
 Route::put('/mahasiswa/profile/{mahasiswa}', [ProfileController::class,'updateMahasiswa'])->middleware('mahasiswa');
+
+// Dokter - Profile
+Route::get('/dokter/profile', [ProfileController::class,'indexDokter'])->middleware('dokter');
+Route::get('/dokter/profile/{dokter}', [ProfileController::class,'editDokter'])->middleware('dokter');
+Route::put('/dokter/profile/{dokter}', [ProfileController::class,'updateDokter'])->middleware('dokter');
+
+// Pengurus - Profile
+Route::get('/petugas/profile', [ProfileController::class,'indexPengurus'])->middleware('pengurus');
+Route::get('/petugas/profile/{petugas}', [ProfileController::class,'editPengurus'])->middleware('pengurus');
+Route::put('/petugas/profile/{petugas}', [ProfileController::class,'updatePengurus'])->middleware('pengurus');
+
+
+Route::get('/mahasiswa/password', [ProfileController::class,'indexPassword'])->middleware('mahasiswa');
+Route::put('/mahasiswa/password/{user}', [ProfileController::class,'updatePassword'])->middleware('mahasiswa');
+
+Route::get('/dokter/password', [ProfileController::class,'indexPassword'])->middleware('dokter');
+Route::put('/dokter/password/{user}', [ProfileController::class,'updatePassword'])->middleware('dokter');
+
+Route::get('/petugas/password', [ProfileController::class,'indexPassword'])->middleware('pengurus');
+Route::put('/petugas/password/{user}', [ProfileController::class,'updatePassword'])->middleware('pengurus');
+

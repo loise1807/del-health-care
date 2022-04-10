@@ -48,7 +48,7 @@
           </li>
           @endcan
           @auth
-          <li class="nav-item dropdown {{ Request::is('mahasiswa/profile*') ? 'active' : Request::is('mahasiswa/changepassword*') ? 'active' : '' }}">
+          <li class="nav-item dropdown {{ Request::is(auth()->user()->role.'/profile*') ? 'active' : Request::is(auth()->user()->role.'/password*') ? 'active' : '' }}">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Welcome back, {{ auth()->user()->username }}
             </a>
@@ -60,7 +60,7 @@
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="/{{ auth()->user()->role }}/password">
                   <i class="bi bi-lock-fill"></i>
                   Change Password
                 </a>

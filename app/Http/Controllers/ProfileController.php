@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Asrama;
+use App\Models\Dokter;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use App\Models\PetugasAsrama;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Mahasiswa 
     public function indexMahasiswa()
     {
         $asrama = DB::table('mahasiswas')
@@ -29,7 +30,6 @@ class ProfileController extends Controller
                     ->select('petugas_asramas.*')
                     ->first();
             
-        // return $asrama;
         return view('Mahasiswa.Profile.profile',[
             'mahasiswa' => Mahasiswa::where('user_id',auth()->user()->id)->first(),
             'asrama' => $asrama,
@@ -38,60 +38,16 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Mahasiswa $mahasiswa)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
     public function editMahasiswa($mahasiswa)
     {
-        // return Mahasiswa::find($mahasiswa);
         return view('Mahasiswa.Profile.edit',[
             'mahasiswa' => Mahasiswa::find($mahasiswa),
             'title' => 'Profile'
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
     public function updateMahasiswa(Request $request, $mahasiswa)
     {
         // return $request;
@@ -126,14 +82,131 @@ class ProfileController extends Controller
         return redirect('/mahasiswa/profile')->with('success-edit','Data Mahasiswa sudah diubah');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Mahasiswa $mahasiswa)
+    // Pengurus
+    public function indexPengurus()
     {
-        //
+        $asrama = PetugasAsrama::where('user_id',auth()->user()->id)->first();
+        return view('PengurusAsrama.Profile.profile',[
+            'pengurus' => PetugasAsrama::where('user_id',auth()->user()->id)->first(),
+            'title' => 'Profile'
+        ]);
     }
+
+    public function editPengurus($pengurus)
+    {
+        return view('PengurusAsrama.Profile.edit',[
+            'pengurus' => PetugasAsrama::find($pengurus),
+            'asramas' => Asrama::all(),
+            'title' => 'Edit Profile'
+        ]);
+    }
+
+    public function updatePengurus(Request $request, $pengurus)
+    {
+        // return $request;
+        $pengurus = PetugasAsrama::find($pengurus);
+
+        $rules = [
+            'nama' => 'required|max:255',
+            'email' => 'required|max:255',
+            'jabatan' => 'required',
+            'asrama_id' => 'required',
+            'no_telp' => 'nullable|integer',
+            'image' => 'image|file|max:1024'
+        ];
+        
+        if($request->email != $pengurus->email){
+            $rules['email'] = 'email|required|unique:petugas_asramas';
+            $validateData = $request->validate($rules);
+        }
+
+        $validateData = $request->validate($rules);
+
+        if($request->file('image')){
+            if($request->oldimage){
+                Storage::delete($request->oldimage);
+            }
+
+            $validateData['image'] = $request->file('image')->store('gambar-pengurus');
+        }
+
+        PetugasAsrama::where('id',$pengurus->id)
+            ->update($validateData);
+
+        return redirect('/petugas/profile')->with('success-edit','Data Anda sudah diubah');
+    }
+
+    // Dokter
+    public function indexDokter()
+    {  
+        return view('Dokter.Profile.profile',[
+            'dokter' => Dokter::where('user_id',auth()->user()->id)->first(),
+            'title' => 'Profile'
+        ]);
+    }
+
+    public function editDokter($dokter)
+    {
+        return view('Dokter.Profile.edit',[
+            'dokter' => Dokter::find($dokter),
+            'title' => 'Edit Profile'
+        ]);
+    }
+
+    public function updateDokter(Request $request, $dokter)
+    {
+        // return $request;
+        $dataDokter = Dokter::find($dokter);
+
+        $rules = [
+            'nama' => 'required|max:255',
+            'spesialis' => 'required',
+            'no_telp' => 'nullable|integer',
+            'image' => 'image|file|max:1024'
+        ];
+        
+        if($request->email != $dataDokter->email){
+            $rules['email'] = 'email|required|unique:mahasiswas';
+            $validateData = $request->validate($rules);
+        }
+
+        $validateData = $request->validate($rules);
+
+        if($request->file('image')){
+            if($request->oldimage){
+                Storage::delete($request->oldimage);
+            }
+
+            $validateData['image'] = $request->file('image')->store('gambar-dokter');
+        }
+
+        Dokter::where('id',$dataDokter->id)
+            ->update($validateData);
+
+        return redirect('/dokter/profile')->with('success-edit','Data Anda sudah diubah');
+    }
+
+    
+
+    // Password
+    public function indexPassword(){
+        return view('password',[
+            'user' => User::find(auth()->user()->id)
+        ]);
+    }
+
+    public function updatePassword(Request $request, $user){
+        $rules = $request->validate([
+            'password' => 'required',
+            'repassword' => 'same:password'
+        ]);
+
+        $validateData['password'] = Hash::make($request->password);
+
+        User::where('id',$user)
+                ->update($validateData);
+
+        return redirect('/'.auth()->user()->role.'/profile')->with('success-change','Password Berhasil di ganti!');
+    }
+
 }

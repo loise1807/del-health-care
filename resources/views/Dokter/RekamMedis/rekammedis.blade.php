@@ -1,18 +1,30 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
 
 <div class="container mt-5">
-  <div class="table-responsive col-lg-12">
+  <div class="table-responsive">
     @if(session()->has('success'))
     <div class="alert alert-success" role="alert">
       {{ session('success') }}
     </div>
     @endif
-    <a href="/dokter/rekammedis/create" class="btn btn-success mb-3"><i class="bi bi-clipboard2-plus"></i> Rekam Medis</a>
-      <table class="table table-striped table-sm">
+    <h1 class="mb-3" style="color: #07be94">Daftar Rekam Medis</h1>
+    <a href="/dokter/rekammedis/create" class="btn text-white mb-3" style="background-color: #07be94;"><i class="bi bi-clipboard2-plus"></i> Rekam Medis</a>
+      <table class="table table-hover table-striped table-lg" style="border-color: #07be94">
         <thead>
           <tr>
             <th scope="col">#</th>

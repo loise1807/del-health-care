@@ -93,7 +93,7 @@ class RekamMedisController extends Controller
                     return view('Mahasiswa.RekamMedis.show',[
                         'rekmed' => RekamMedis::where('id',$rekmeds)->first(),
                         'mahasiswa' => $data,
-                        'title' => "Detail Rekam Medis"
+                        'title' => "Rekam Medis / Detail Rekam Medis"
                     ]);
                 }else{
                     return back();
@@ -102,7 +102,7 @@ class RekamMedisController extends Controller
                 return view('PengurusAsrama.RekamMedis.show',[
                     'rekmed' => RekamMedis::where('id',$rekmeds)->first(),
                     'mahasiswa' => $data,
-                    'title' => "Detail Rekam Medis"
+                    'title' => "Rekam Medis / Detail Rekam Medis"
                 ]);
             }
         }else{

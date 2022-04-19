@@ -1,11 +1,22 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
 
 <div class="container mt-5">
-  <div class="table-responsive col-lg-12">
+  <div class="table-responsive">
     @if(session()->has('success'))
     <div class="alert alert-success" role="alert">
       {{ session('success') }}
@@ -20,7 +31,7 @@
     </div>
     @endif
     <a href="/mahasiswa/konsultasi/create" class="btn btn-success mb-3" style="background:#00D9A5"><i class="bi bi-clipboard2-plus"></i> Permintaan Konsultasi</a>
-      <table class="table table-striped table-sm">
+      <table class="table table-hover table-striped table-lg" style="border-color: #07be94">
         <thead>
           <tr>
             <th scope="col" class="text-center">Nama Dokter</th>
@@ -70,7 +81,7 @@
       </table>
 
       <b><h4 class="mt-5">Riwayat Konsul</h4></b>
-      <table class="table table-striped table-sm">
+      <table class="table table-hover table-striped table-lg" style="border-color: #07be94">
         <thead>
           <tr>
             <th scope="col" class="text-center">Nama Dokter</th>

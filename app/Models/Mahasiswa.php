@@ -21,7 +21,7 @@ class Mahasiswa extends Model
 
     public function riwayatpenyakit()
     {
-        return $this->hasMany(RiwayatPenyakit::class);
+        return $this->belongsTo(RiwayatPenyakit::class);
     }
 
     

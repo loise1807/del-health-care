@@ -42,7 +42,7 @@ class DokterRekamMedisController extends Controller
                     ->get();
         return view('Dokter.RekamMedis.create',[
             'mahasiswas' => $data,
-            'title' => "Tambah Rekam Medis"
+            'title' => "Rekam Medis / Tambah Rekam Medis"
         ]);
     }
 
@@ -82,7 +82,7 @@ class DokterRekamMedisController extends Controller
             return view('Dokter.RekamMedis.show',[
                 'rekammedis' => $rekamMedis,
                 'mahasiswa' => Mahasiswa::find($rekamMedis->mhs_id),
-                'title' => "Detail Rekam Medis"
+                'title' => "Rekam Medis / Detail Rekam Medis"
             ]);
         }
     }
@@ -103,7 +103,7 @@ class DokterRekamMedisController extends Controller
         return view('Dokter.RekamMedis.edit',[
             'rekammedis' => $rekamMedis,
             'mahasiswa' => $data,
-            'title' => "Edit Rekam Medis"
+            'title' => "Rekam Medis / Edit Rekam Medis"
         ]);
 
     }

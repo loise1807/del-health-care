@@ -1,8 +1,19 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
 
-<div class="container col-lg-8 mt-3 mb-5">
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
+
+<div class="container mt-3 mb-5">
   <div class="card border-primary border-3">
     <div class="card-header border-primary border-2">
       <b>Edit Permintaan Konsultasi: &nbsp{{ $mahasiswa->nama }}({{ $mahasiswa->nim }})</b>
@@ -39,7 +50,7 @@
             @enderror
           </div>
           
-          <button type="submit" class="btn btn-primary">Ubah Permintaan Konsultasi</button>
+          <button type="submit" class="btn btn-primary mb-3 mt-3 text-white" style="background-color: #07be94">Ubah Permintaan Konsultasi</button>
 
         </form>
       </blockquote>

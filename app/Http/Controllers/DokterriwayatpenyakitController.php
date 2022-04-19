@@ -26,11 +26,13 @@ class DokterriwayatpenyakitController extends Controller
         // return view('Dokter.RiwayatPenyakit.riwayatpenyakit')->with('riwayatpenyakits',$data,);
         if(auth()->user()->role == 'dokter'){
             return view('Dokter.RiwayatPenyakit.riwayatpenyakit',[
-                'riwayatpenyakits' => $data,
+                'names' => RiwayatPenyakit::select('mhs_id')->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')->distinct()->get(),
+                'riwayatpenyakits' => RiwayatPenyakit::all(),
                 'title' => "Riwayat Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.riwayatpenyakit',[
+                'names' => RiwayatPenyakit::select('mhs_id')->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')->distinct()->get(),
                 'riwayatpenyakits' => $data,
                 'title' => "Riwayat Penyakit"
             ]);
@@ -53,12 +55,12 @@ class DokterriwayatpenyakitController extends Controller
         if(auth()->user()->role == 'dokter'){
             return view('Dokter.RiwayatPenyakit.create',[
                 'mahasiswas' => $data,
-                'title' => "Tambah Riwayat Penyakit"
+                'title' => "Riwayat Penyakit / Tambah Riwayat Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.create',[
                 'mahasiswas' => $data,
-                'title' => "Tambah Riwayat Penyakit"
+                'title' => "Riwayat Penyakit / Tambah Riwayat Penyakit"
             ]);
         }
         
@@ -108,15 +110,15 @@ class DokterriwayatpenyakitController extends Controller
     {
         if(auth()->user()->role == 'dokter'){
             return view('Dokter.RiwayatPenyakit.show',[
-                'riwayatpenyakit' => $riwayatPenyakit,
-                'mahasiswa' => Mahasiswa::find($riwayatPenyakit->mhs_id),
-                'title' => "Detail Penyakit"
+                'riwayatpenyakits' => RiwayatPenyakit::where('mhs_id',$riwayatPenyakit->id)->get(),
+                'mahasiswa' => Mahasiswa::find($riwayatPenyakit->id),
+                'title' => "Riwayat Penyakit / Detail Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.show',[
-                'riwayatpenyakit' => $riwayatPenyakit,
-                'mahasiswa' => Mahasiswa::find($riwayatPenyakit->mhs_id),
-                'title' => "Detail Penyakit"
+                'riwayatpenyakits' => RiwayatPenyakit::where('mhs_id',$riwayatPenyakit->id)->get(),
+                'mahasiswa' => Mahasiswa::find($riwayatPenyakit->id),
+                'title' => "Riwayat Penyakit / Detail Penyakit"
             ]);
         }
     }
@@ -145,12 +147,14 @@ class DokterriwayatpenyakitController extends Controller
         if(auth()->user()->role == 'dokter'){
             return view('Dokter.RiwayatPenyakit.edit',[
                 'riwayatPenyakit' => $riwayatPenyakit,
-                'mahasiswa' => $data
+                'mahasiswa' => $data,
+                'title' => 'Riwayat Penyakit / Edit Riwayat Penyakit'
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.edit',[
                 'riwayatPenyakit' => $riwayatPenyakit,
-                'mahasiswa' => $data
+                'mahasiswa' => $data,
+                'title' => 'Riwayat Penyakit / Edit Riwayat Penyakit'
             ]);
         }
     }

@@ -1,23 +1,31 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
 
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
-<div class="container col-lg-8 mt-5">
 
-  <div class="card border-primary border-3">
-    <div class="card-header border-primary border-2">
-      <b>{{ $mahasiswa->nim }} - {{ $mahasiswa->nama }}</b>
+<div class="container mt-5">
+
+  <div class="card border-success">
+    <div class="card-header border-success border-2">
     </div>
     <div class="card-body">
       <blockquote class="blockquote mb-0">
-          <div class="form-group row">
-            <label for="nama_penyakit" class="col-sm-4 col-form-label"><i>Nama Penyakit</i></label>
-            <div class="col-sm-8">
-              <p><b>{!! $riwayat_penyakit->nama_penyakit !!}</b></p>            
-            </div>
-        </div>
+          <div class="form-group row g-2">
+            <label for="nama_penyakit" class="col-sm-4 col-form-label"><b>Nama Penyakit</b></label>
+            <p class="col-sm-8 text-dark">{!! $riwayat_penyakit->nama_penyakit !!}</p>            
+          </div>
           
         </blockquote>
         <a href="/mahasiswa/riwayatpenyakits" class="btn btn-success mt-3"><i class="bi bi-arrow-return-left"></i></a>

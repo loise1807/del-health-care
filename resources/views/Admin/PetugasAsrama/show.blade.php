@@ -1,6 +1,18 @@
 @extends('Admin.main')
 
-@section('container')
+@section('container') 
+
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">Konsultasi</li>
+</ol>
 
 <div class="container">
     <div class="row justify-content-center mt-5">

@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
-  <head>
+  <head >
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Del Health Care | Home</title>
 
+    <link rel="shortcut icon" href="/img/del.png">
 
     
 
@@ -22,12 +22,12 @@
     
 @include('Admin.header')
 
-<div class="container-fluid">
+<div class="container-fluid" >
   <div class="row">
     @include('Admin.sidebar')
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      @yield('container')
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 ">
+      @yield('container-admin')
     </main>
   </div>
 </div>

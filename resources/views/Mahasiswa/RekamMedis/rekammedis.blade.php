@@ -1,32 +1,31 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
 
 <div class="container mt-5">
-  <div class="table-responsive col-lg-12">
-    @if(session()->has('success'))
-    <div class="alert alert-success" role="alert">
-      {{ session('success') }}
-    </div>
-    @elseif(session()->has('success-delete'))
-    <div class="alert alert-danger" role="alert">
-      {{ session('success-delete') }}
-    </div>
-    @elseif(session()->has('success-edit'))
-    <div class="alert alert-warning" role="alert">
-      {{ session('success-edit') }}
-    </div>
-    @endif
-      <table class="table table-striped table-sm">
+  <div class="table-responsive">
+    <h1 class="mb-3" style="color: #07be94">Daftar Rekam Medis</h1>
+      <table class="table table-hover table-striped table-lg" style="border-color: #07be94">
         <thead>
           <tr>
-            <th scope="col" class="text-center">#</th>
-            <th scope="col" class="text-center">Gejala</th>
-            <th scope="col" class="text-center">Diagnosa</th>
-            <th scope="col" class="text-center">Deskripsi</th>
-            <th scope="col" class="text-center">Aksi</th>
+            <th scope="col">#</th>
+            <th scope="col">Gejala</th>
+            <th scope="col">Diagnosa</th>
+            <th scope="col">Deskripsi</th>
+            <th scope="col">Aksi</th>
           </tr>
         </thead>
         <tbody>

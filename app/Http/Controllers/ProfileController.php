@@ -97,7 +97,7 @@ class ProfileController extends Controller
         return view('PengurusAsrama.Profile.edit',[
             'pengurus' => PetugasAsrama::find($pengurus),
             'asramas' => Asrama::all(),
-            'title' => 'Edit Profile'
+            'title' => 'Profile / Edit Profile'
         ]);
     }
 
@@ -149,7 +149,7 @@ class ProfileController extends Controller
     {
         return view('Dokter.Profile.edit',[
             'dokter' => Dokter::find($dokter),
-            'title' => 'Edit Profile'
+            'title' => 'Profile / Edit Profile'
         ]);
     }
 
@@ -191,7 +191,8 @@ class ProfileController extends Controller
     // Password
     public function indexPassword(){
         return view('password',[
-            'user' => User::find(auth()->user()->id)
+            'user' => User::find(auth()->user()->id),
+            'title' => 'Ubah Password'
         ]);
     }
 

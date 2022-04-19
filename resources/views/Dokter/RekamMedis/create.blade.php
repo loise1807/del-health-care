@@ -1,10 +1,21 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
 
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
-<div class="container col-lg-8 mt-5">
+
+<div class="container mt-5">
   <div class="col-lg-8">
     <form method="post" action="/dokter/rekammedis">
       @csrf
@@ -55,7 +66,7 @@
         </div>
         @enderror
       </div>
-      <button type="submit" class="btn btn-primary mb-3 mt-3">Tambah Rekam Medis</button>
+      <button type="submit" class="btn btn-primary mb-3 mt-3 text-white" style="background-color: #07be94">Tambah Rekam Medis</button>
     </form>
   
   </div>

@@ -1,9 +1,20 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
 
+<div class="page-inner">
 
-<div class="container col-lg-8 mt-4">
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
+
+
+<div class="container mt-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom">
     <h1 class="h2">Edit Riwayat Penyakit: {{ $mahasiswa->nama }}</h1>
   </div>
@@ -23,7 +34,7 @@
         </div>
         @enderror
       </div>
-      <button type="submit" class="btn btn-primary">Ubah Riwayat</button>
+      <button type="submit" class="btn btn-primary mb-3 mt-3 text-white" style="background-color: #07be94">Ubah Riwayat</button>
     </form>
   
   </div>

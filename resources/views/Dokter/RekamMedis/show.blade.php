@@ -1,10 +1,21 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
 
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
-<div class="container col-lg-8 mt-5">
+
+<div class="container mt-5">
 
   <div class="card border-primary border-3">
     <div class="card-header border-primary border-2">

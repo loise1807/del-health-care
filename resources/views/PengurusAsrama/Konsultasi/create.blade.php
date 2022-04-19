@@ -1,10 +1,21 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
 
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
-<div class="container col-lg-8 mt-5">
+
+<div class="container mt-5">
   <div class="col-lg-8">
     <form method="post" action="/mahasiswa/konsultasi">
       @csrf

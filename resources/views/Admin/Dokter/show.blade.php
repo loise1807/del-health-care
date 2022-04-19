@@ -1,6 +1,6 @@
 @extends('Admin.main')
 
-@section('container')
+@section('container-admin')
 
 <div class="container">
     <div class="row justify-content-center mt-5">

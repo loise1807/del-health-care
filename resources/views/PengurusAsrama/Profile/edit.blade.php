@@ -1,6 +1,18 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
-@section('container')
+@section('container') 
+
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{$title}}</li>
+</ol>
 <div class="container">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Edit profil: <i>{{ $pengurus->nama }}</i></h1>
@@ -13,7 +25,7 @@
       @csrf
       <div class="mb-2 col-md-6">
         <label for="no_pegawai" class="form-label"><b>Nomor Pegawai Pengurus</b></label>
-        <input type="text" class="form-control @error('no_pegawai') is-invalid @enderror" id="no_pegawai" name="no_pegawai" required value="{{ $pengurus->no_pegawai }}" readonly>
+        <input style="border-color: #07be94; border-5" type="text" class="form-control @error('no_pegawai') is-invalid @enderror" id="no_pegawai" name="no_pegawai" required value="{{ $pengurus->no_pegawai }}" readonly>
         @error('no_pegawai')
         <div class="invalid-feedback">
           {{ $message }}
@@ -22,7 +34,7 @@
       </div>
       <div class="mb-2 col-md-6">
         <label for="nama" class="form-label"><b>Nama Pengurus</b></label>
-        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" required value="{{ $pengurus->nama }}">
+        <input style="border-color: #07be94; border-5" type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" required value="{{ $pengurus->nama }}">
         @error('nama')
         <div class="invalid-feedback">
           {{ $message }}
@@ -85,7 +97,7 @@
       </div>
       <div class="mb-2 col-md-6">
         <label for="email" class="form-label"><b>Email</b></label>
-        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required value="{{ $pengurus->email }}">
+        <input style="border-color: #07be94; border-5" type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required value="{{ $pengurus->email }}">
         @error('email')
         <div class="invalid-feedback">
           {{ $message }}
@@ -96,7 +108,7 @@
         <label for="no_telp" class="form-label"><b><b>No Telepon</b></b></label>
         <div class="input-group mb-2">
           <span class="input-group-text" id="basic-addon1">62</span>
-          <input type="text" class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" value="{{ $pengurus->no_telp }}" placeholder="81234567890">
+          <input style="border-color: #07be94; border-5" type="text" class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" value="{{ $pengurus->no_telp }}" placeholder="81234567890">
           @error('no_telp')
           <div class="invalid-feedback">
             {{ $message }}
@@ -106,7 +118,7 @@
       </div>
       <div class="mb-2">
         <label for="image" class="form-label"><b><b>Foto Pengurus</b></b></label>
-        <input type="hidden" name="oldimage" id="oldimage" value="{{ $pengurus->image }}">
+        <input style="border-color: #07be94; border-5" type="hidden" name="oldimage" id="oldimage" value="{{ $pengurus->image }}">
         @if($pengurus->image)
         <img src="{{ asset('storage/'.$pengurus->image) }}" class="img-preview img-fluid mb-2 col-md-6 d-block">
         @else
@@ -120,7 +132,7 @@
         @enderror
       </div>
       <div>
-        <button type="submit" class="btn btn-primary mb-3 mt-3">Ubah Pengurus</button>
+        <button type="submit" class="btn text-white mb-3" style="background-color: #07be94;">Ubah Pengurus</button>
       </div>
     </form>
   

@@ -1,6 +1,18 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
-@section('container')
+@section('container') 
+
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 <div class="container">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Ubah password</h1>
@@ -39,7 +51,7 @@
         @enderror
       </div>
       <div class="mb-2 col-md-6">
-        <button type="submit" class="btn btn-primary mb-3 mt-3">Ubah Password</button>
+        <button type="submit" class="btn text-white mb-3" style="background-color: #07be94;">Ubah Password</button>
       </div>
     </form>
   

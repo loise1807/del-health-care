@@ -89,7 +89,7 @@ class DokterKonsultasiController extends Controller
         return view('Dokter.Konsultasi.show',[
             'reqKonsul' => $reqKonsul,
             'mahasiswa' => Mahasiswa::find($reqKonsul->mhs_id),
-            'title' => "Detail Konsultasi"
+            'title' => "Konsultasi / Detail Konsultasi"
         ]);
     }
 

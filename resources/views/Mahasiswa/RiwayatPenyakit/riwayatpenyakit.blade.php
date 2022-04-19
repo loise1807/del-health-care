@@ -1,24 +1,24 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 
 
 <div class="container mt-5 text-center" >
-  <div class="table-responsive col-lg-5">
-    @if(session()->has('success'))
-    <div class="alert alert-success" role="alert">
-      {{ session('success') }}
-    </div>
-    @elseif(session()->has('success-delete'))
-    <div class="alert alert-danger" role="alert">
-      {{ session('success-delete') }}
-    </div>
-    @elseif(session()->has('success-edit'))
-    <div class="alert alert-warning" role="alert">
-      {{ session('success-edit') }}
-    </div>
-    @endif
+  <div class="table-responsive">
+  
+    <h1 class="mb-3" style="color: #07be94">Daftar Riwayat Penyakit</h1>
       <table class="table table-striped table-md">
         <thead>
           <tr>

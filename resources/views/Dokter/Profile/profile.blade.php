@@ -1,6 +1,17 @@
-@extends('layouts.main')
+@extends('layouts.main-toon')
 
 @section('container') 
+
+<div class="page-inner">
+
+</div>
+<!---->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Beranda</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $title }}</li>
+</ol>
 
 <div class="container mt-5  ">
 
@@ -23,7 +34,7 @@
     <div class="accordion-item">
 
       <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-        <button class="accordion-button bg-success text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        <button style="background-color: #07be94" class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
           Profil
         </button>
       </h2>
@@ -73,7 +84,7 @@
                 <div>
                   <div class="col-md-6">
                     <p class="card-text"><small class="text-muted">Last updated {{ $dokter->updated_at->diffForHumans() }}</small></p>
-                    <a href="/dokter/profile/{{ $dokter->id }}" class="btn btn-success text-white">Ubah Data</a>
+                    <a href="/dokter/profile/{{ $dokter->id }}" class="btn text-white mb-3" style="background-color: #07be94;">Ubah Data</a>
                   </div>
                 </div>
       

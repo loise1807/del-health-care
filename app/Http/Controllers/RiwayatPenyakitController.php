@@ -28,20 +28,6 @@ class RiwayatPenyakitController extends Controller
                 'title' => "Riwayat Penyakit"
             ]);
         }
-        elseif(auth()->user()->role == 'petugas'){
-            $data = DB::table('riwayat_penyakits')
-                        ->orderBy('riwayat_penyakits.tanggal', 'asc')
-                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
-                        ->select('riwayat_penyakits.*','mahasiswas.nama as nama_mahasiswa','mahasiswas.id as id_mahasiswa')
-                        ->where('mahasiswas.user_id', auth()->user()->id)
-                        ->get();
-
-            return 'petugas';
-            // return view('Mahasiswa.RekamMedis.rekammedis',[
-            //     'rekmeds' => $data,
-            //     'title' => "Rekam Medis"
-            // ]);
-        }
     }
 
     /**
@@ -85,7 +71,7 @@ class RiwayatPenyakitController extends Controller
                 return view('Mahasiswa.RiwayatPenyakit.show',[
                     'riwayat_penyakit' => RiwayatPenyakit::where('id',$riwayatpenyakit->id)->first(),
                     'mahasiswa' => $data,
-                    'title' => "Detail Riwayat Penyakit"
+                    'title' => "Riwayat Penyakit / Detail Riwayat Penyakit"
                 ]);
                 // return $data;
             }else{

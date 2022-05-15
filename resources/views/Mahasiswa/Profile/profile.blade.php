@@ -16,29 +16,31 @@
 <div class="container mt-5  ">
 
   @if(session()->has('success-change'))
-      <div class="alert alert-success col-lg-3" role="alert">
-        {{ session('success-change') }}
-      </div>
-      @elseif(session()->has('success-edit'))
-      <div class="alert alert-warning col-lg-3" role="alert">
-        {{ session('success-edit') }}
-      </div>
-      @elseif(session()->has('success-delete'))
-      <div class="alert alert-danger col-lg-3" role="alert">
-        {{ session('success-delete') }}
-      </div>
-      @endif
+  <div class="alert alert-success col-lg-6" role="alert">
+    {{ session('success-change') }}
+  </div>
+  @elseif(session()->has('success-edit'))
+  <div class="alert alert-warning col-lg-6" role="alert">
+    {{ session('success-edit') }}
+  </div>
+  @elseif(session()->has('success-delete'))
+  <div class="alert alert-danger col-lg-6" role="alert">
+    {{ session('success-delete') }}
+  </div>
+  @endif
 
   <div class="accordion mt-5 mb-5" id="accordionPanelsStayOpenExample">
 
     <div class="accordion-item">
-
+      {{-- Button --}}
       <h2 class="accordion-header" id="panelsStayOpen-headingOne">
        <button style="background-color: #07be94" class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
           Profil
         </button>
       </h2>
+
       <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+        {{-- Gambar Profil --}}
         <div class="accordion-body">
           <div class="row g-0">
             <div class="col-md-3">
@@ -48,10 +50,12 @@
               </div>
               @else
               <div style="max-height: 300px; max-width:200px; overflow:hidden;">
-                <img class="" src="https://source.unsplash.com/190x350?people" alt="profile-image">
+                <img class="" src="https://source.unsplash.com/190x350?students" alt="profile-image">
               </div>
               @endif
             </div>
+
+            {{-- Informasi Detail Profil --}}
             <div class="col-md-6">
               <div class="card-body row g-2">
                 <div class="col-md-6">
@@ -126,12 +130,15 @@
     </div>
 
     <div class="accordion-item">
+      {{-- Button Asrama --}}
       <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
         <button class="accordion-button collapsed  bg-success text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
           Asrama
         </button>
       </h2>
+      
       <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+        {{-- Informasi Detail Asrama --}}
         <div class="accordion-body row g-2">
           <div class="col-md-6">
             <label for="nama_asrama"><b>Nama Asrama</b></label>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Models\RiwayatPenyakit;
@@ -18,23 +19,49 @@ class DokterriwayatpenyakitController extends Controller
      */
     public function index()
     {
-        $data = DB::table('riwayat_penyakits')
-                    ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
-                    ->select('riwayat_penyakits.*','mahasiswas.nama as nama_mahasiswa')
-                    ->get();
-           
+        if(request('search')){
+            // return request('search');
+            $data = DB::table('riwayat_penyakits')
+                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
+                        ->select('riwayat_penyakits.*','mahasiswas.nama as nama_mahasiswa')
+                        ->get();
+              
+            $names = RiwayatPenyakit::select('mhs_id')
+                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
+                        ->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')
+                        ->orderBy('nama_mahasiswa','asc')
+                        ->distinct()
+                        ->where('mahasiswas.nama','like', '%'.request('search').'%')
+                        ->orwhere('riwayat_penyakits.nama_penyakit','like', '%'.request('search').'%')
+                        ->get();
+        }else{
+            $data = DB::table('riwayat_penyakits')
+                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
+                        ->select('riwayat_penyakits.*','mahasiswas.nama as nama_mahasiswa')
+                        ->get();
+              
+            $names = RiwayatPenyakit::select('mhs_id')
+                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
+                        ->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')
+                        ->orderBy('nama_mahasiswa','asc')
+                        ->distinct()
+                        ->get();
+        }
+
         // return view('Dokter.RiwayatPenyakit.riwayatpenyakit')->with('riwayatpenyakits',$data,);
         if(auth()->user()->role == 'dokter'){
             return view('Dokter.RiwayatPenyakit.riwayatpenyakit',[
-                'names' => RiwayatPenyakit::select('mhs_id')->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')->distinct()->get(),
+                'names' => $names,
                 'riwayatpenyakits' => RiwayatPenyakit::all(),
-                'title' => "Riwayat Penyakit"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Riwayat Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.riwayatpenyakit',[
                 'names' => RiwayatPenyakit::select('mhs_id')->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')->distinct()->get(),
                 'riwayatpenyakits' => $data,
-                'title' => "Riwayat Penyakit"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Riwayat Penyakit"
             ]);
         }
 
@@ -55,12 +82,14 @@ class DokterriwayatpenyakitController extends Controller
         if(auth()->user()->role == 'dokter'){
             return view('Dokter.RiwayatPenyakit.create',[
                 'mahasiswas' => $data,
-                'title' => "Riwayat Penyakit / Tambah Riwayat Penyakit"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+                'title' =>"Riwayat Penyakit / Tambah Riwayat Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.create',[
                 'mahasiswas' => $data,
-                'title' => "Riwayat Penyakit / Tambah Riwayat Penyakit"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+                'title' =>"Riwayat Penyakit / Tambah Riwayat Penyakit"
             ]);
         }
         
@@ -75,14 +104,10 @@ class DokterriwayatpenyakitController extends Controller
     public function store(Request $request)
     {
         
-        
-        // return $request;
         $validateData = $request->validate([
             'mhs_id' => 'required',
             'nama_penyakit' => 'required'
         ]);
-
-        // return dd($validateData);
 
         RiwayatPenyakit::create($validateData);
 
@@ -112,13 +137,15 @@ class DokterriwayatpenyakitController extends Controller
             return view('Dokter.RiwayatPenyakit.show',[
                 'riwayatpenyakits' => RiwayatPenyakit::where('mhs_id',$riwayatPenyakit->id)->get(),
                 'mahasiswa' => Mahasiswa::find($riwayatPenyakit->id),
-                'title' => "Riwayat Penyakit / Detail Penyakit"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Riwayat Penyakit / Detail Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.show',[
                 'riwayatpenyakits' => RiwayatPenyakit::where('mhs_id',$riwayatPenyakit->id)->get(),
                 'mahasiswa' => Mahasiswa::find($riwayatPenyakit->id),
-                'title' => "Riwayat Penyakit / Detail Penyakit"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Riwayat Penyakit / Detail Penyakit"
             ]);
         }
     }
@@ -148,13 +175,15 @@ class DokterriwayatpenyakitController extends Controller
             return view('Dokter.RiwayatPenyakit.edit',[
                 'riwayatPenyakit' => $riwayatPenyakit,
                 'mahasiswa' => $data,
-                'title' => 'Riwayat Penyakit / Edit Riwayat Penyakit'
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Riwayat Penyakit / Edit Riwayat Penyakit'
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.edit',[
                 'riwayatPenyakit' => $riwayatPenyakit,
                 'mahasiswa' => $data,
-                'title' => 'Riwayat Penyakit / Edit Riwayat Penyakit'
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Riwayat Penyakit / Edit Riwayat Penyakit'
             ]);
         }
     }
@@ -168,8 +197,6 @@ class DokterriwayatpenyakitController extends Controller
      */
     public function update(Request $request, RiwayatPenyakit $riwayatPenyakit)
     {
-        // return $request;
-        
         $rules = [
             'nama_penyakit' => 'required'
         ];
@@ -189,9 +216,6 @@ class DokterriwayatpenyakitController extends Controller
         }elseif(auth()->user()->role == 'petugas'){
             return redirect('/pengurus/riwayatpenyakits')->with('success-update','Riwayat Penyakit sudah diubah');
         }
-        
-
-        
     }
 
     /**
@@ -202,7 +226,6 @@ class DokterriwayatpenyakitController extends Controller
      */
     public function destroy(RiwayatPenyakit $riwayatPenyakit)
     {
-        // return $riwayatPenyakit->id;
         RiwayatPenyakit::destroy($riwayatPenyakit->id);
 
         if(auth()->user()->role == 'dokter'){

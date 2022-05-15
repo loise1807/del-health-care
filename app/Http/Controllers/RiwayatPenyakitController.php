@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\RiwayatPenyakit;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,8 @@ class RiwayatPenyakitController extends Controller
             // return $data;
             return view('Mahasiswa.RiwayatPenyakit.riwayatpenyakit',[
                 'riwayat_penyakits' => $data,
-                'title' => "Riwayat Penyakit"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Riwayat Penyakit"
             ]);
         }
     }
@@ -71,9 +73,9 @@ class RiwayatPenyakitController extends Controller
                 return view('Mahasiswa.RiwayatPenyakit.show',[
                     'riwayat_penyakit' => RiwayatPenyakit::where('id',$riwayatpenyakit->id)->first(),
                     'mahasiswa' => $data,
-                    'title' => "Riwayat Penyakit / Detail Riwayat Penyakit"
+                    'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Riwayat Penyakit / Detail Riwayat Penyakit"
                 ]);
-                // return $data;
             }else{
                 return back();
             }

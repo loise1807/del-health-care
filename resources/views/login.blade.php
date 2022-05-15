@@ -30,16 +30,17 @@
 					<img src="img/img-01.png" alt="IMG">
 				</div>
 
-        
-        @if(session()->has('loginError'))
-        <script type='text/javascript'>alert('{{ session('loginError') }}');</script>;
-        @endif
-
 				<form class="login100-form validate-form" action="/login" method="post">
           @csrf
 					<span class="login100-form-title">
 						Silahkan Login
 					</span>
+
+					@if(session()->has('failed-login'))
+					<div class="alert alert-danger" role="alert">
+						{{ session('failed-login') }}
+					</div>
+					@endif
 
 					<div class="wrap-input100 validate-input">
 						<input class="input100 @error('username') is-invalid @enderror" type="text" id="username" name="username" placeholder="Username" autofocus required value="{{ old('username') }}">
@@ -74,6 +75,7 @@
 					</div>
 
 				</form>
+				
 			</div>
 		</div>
 	</div>

@@ -101,8 +101,6 @@ class AsramaController extends Controller
             ->update($validateData);
 
         return redirect('/admin/asramas')->with('success','Asrama sudah diubah');
-
-
     }
 
 

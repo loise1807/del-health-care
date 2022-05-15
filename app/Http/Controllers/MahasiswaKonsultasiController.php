@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Dokter;
 use App\Models\Mahasiswa;
 use App\Models\ReqKonsul;
@@ -26,11 +27,10 @@ class MahasiswaKonsultasiController extends Controller
                     ->where('mahasiswas.user_id', auth()->user()->id)
                     ->get();
 
-        // return $data;
-        // return view('Dokter.RekamMedis.rekammedis')->with('rekammedis',$data);
         return view('Mahasiswa.Konsultasi.konsultasi',[
             'konsultasis' => $data,
-            'title' => "Konsultasi"
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Konsultasi"
         ]);
     }
 
@@ -47,9 +47,10 @@ class MahasiswaKonsultasiController extends Controller
                     ->first();
 
         return view('Mahasiswa.Konsultasi.create',[
-            'dokters' => Dokter::all(),
+            'dokters' => Dokter::where('user_id','!=',null)->get(),
             'mahasiswa' => $data,
-            'title' => "Tambah Konsultasi"
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Tambah Konsultasi"
         ]);
     }
 
@@ -61,7 +62,9 @@ class MahasiswaKonsultasiController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        $mahasiswa = Mahasiswa::find($request->mhs_id);
+        $dokter = Dokter::find($request->dokter_id);
+
         $validateData = $request->validate([
             'mhs_id' => 'required',
             'dokter_id' => 'required',
@@ -69,7 +72,15 @@ class MahasiswaKonsultasiController extends Controller
             'deskripsi' => 'required|max:255'
         ]);
 
-        // // return dd($validateData);
+        $notifikasi['pengirim_id'] = $mahasiswa->user_id;
+        $notifikasi['penerima_id'] = $dokter->user_id;
+        $notifikasi['judul'] = 'Permintaan Konsultasi oleh '. $mahasiswa->nama;
+        $notifikasi['isi'] = 'Permintaan Konsultasi oleh '. $mahasiswa->nama . 'pada tanggal '. date('l, d F Y', strtotime($request->tgl_konsul)). ' pada jam '. date('H:i', strtotime($request->tgl_konsul));
+        $notifikasi['status'] = 0;
+        $notifikasi['bgcolor'] = 'rgb(7, 190, 148,0.2)';
+        
+        Notifikasi::create($notifikasi);
+
 
         ReqKonsul::create($validateData);
 
@@ -88,13 +99,12 @@ class MahasiswaKonsultasiController extends Controller
                     ->where('mahasiswas.id', $reqKonsul->mhs_id)
                     ->first();
         
-        
-        // $mahasiswa = $reqKonsul->mhs_id;
         if (auth()->user()->id == $data->user_id) {
             return view('Mahasiswa.Konsultasi.show',[
                 'reqKonsul' => $reqKonsul,
                 'mahasiswa' => Mahasiswa::find($reqKonsul->mhs_id),
-                'title' => "Detail Konsultasi"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Detail Konsultasi"
             ]);
         }else{
             return back();
@@ -120,7 +130,8 @@ class MahasiswaKonsultasiController extends Controller
                 'konsultasi' => $reqKonsul,
                 'mahasiswa' => $data,
                 'dokters' => Dokter::all(),
-                'title' => "Edit Konsultasi"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Edit Konsultasi"
             ]);
         }else{
             return back();
@@ -159,8 +170,6 @@ class MahasiswaKonsultasiController extends Controller
      */
     public function destroy(ReqKonsul $reqKonsul)
     {
-        // return $reqKonsul;
-
         ReqKonsul::destroy($reqKonsul->id);
 
         return redirect('/mahasiswa/konsultasi')->with('success-delete','Data Permintaan Konsultasi di hapus!');

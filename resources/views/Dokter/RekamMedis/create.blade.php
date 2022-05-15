@@ -36,7 +36,7 @@
       <div class="mb-3">
         <label for="gejala" class="form-label"><b>Gejala</b></label>
         {{-- <input type="text" class="form-control @error('gejala') is-invalid @enderror" id="gejala" name="gejala" required value="{{ old('gejala') }}"> --}}
-        <input id="gejala" type="hidden" name="gejala" value="{{ old('gejala') }}">
+        <input id="gejala" type="hidden"  class="@error('gejala') is-invalid @enderror" name="gejala" value="{{ old('gejala') }}">
         <trix-editor input="gejala"></trix-editor>
         @error('gejala')
         <div class="invalid-feedback">

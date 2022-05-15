@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\User;
 use App\Models\Asrama;
 use App\Models\Dokter;
@@ -34,7 +35,8 @@ class ProfileController extends Controller
             'mahasiswa' => Mahasiswa::where('user_id',auth()->user()->id)->first(),
             'asrama' => $asrama,
             'petugas_asrama' => $petugas_asrama,
-            'title' => 'Profile'
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Profile'
         ]);
     }
 
@@ -44,7 +46,8 @@ class ProfileController extends Controller
     {
         return view('Mahasiswa.Profile.edit',[
             'mahasiswa' => Mahasiswa::find($mahasiswa),
-            'title' => 'Profile'
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Profile'
         ]);
     }
 
@@ -88,7 +91,8 @@ class ProfileController extends Controller
         $asrama = PetugasAsrama::where('user_id',auth()->user()->id)->first();
         return view('PengurusAsrama.Profile.profile',[
             'pengurus' => PetugasAsrama::where('user_id',auth()->user()->id)->first(),
-            'title' => 'Profile'
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Profile'
         ]);
     }
 
@@ -97,7 +101,8 @@ class ProfileController extends Controller
         return view('PengurusAsrama.Profile.edit',[
             'pengurus' => PetugasAsrama::find($pengurus),
             'asramas' => Asrama::all(),
-            'title' => 'Profile / Edit Profile'
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Profile / Edit Profile'
         ]);
     }
 
@@ -141,7 +146,8 @@ class ProfileController extends Controller
     {  
         return view('Dokter.Profile.profile',[
             'dokter' => Dokter::where('user_id',auth()->user()->id)->first(),
-            'title' => 'Profile'
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Profile'
         ]);
     }
 
@@ -149,7 +155,8 @@ class ProfileController extends Controller
     {
         return view('Dokter.Profile.edit',[
             'dokter' => Dokter::find($dokter),
-            'title' => 'Profile / Edit Profile'
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Profile / Edit Profile'
         ]);
     }
 
@@ -192,7 +199,8 @@ class ProfileController extends Controller
     public function indexPassword(){
         return view('password',[
             'user' => User::find(auth()->user()->id),
-            'title' => 'Ubah Password'
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>'Ubah Password'
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Mahasiswa;
 use App\Models\RekamMedis;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ class RekamMedisController extends Controller
 
             return view('Mahasiswa.RekamMedis.rekammedis',[
                 'rekmeds' => $data,
-                'title' => "Rekam Medis"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             $data = DB::table('rekam_medis')
@@ -34,19 +36,14 @@ class RekamMedisController extends Controller
                         ->orderBy('mahasiswas.nama', 'asc')
                         ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'rekam_medis.mhs_id')
                         ->select('rekam_medis.*','mahasiswas.nama as nama_mahasiswa','mahasiswas.id as id_mahasiswa')
-                        // ->where('mahasiswas.user_id', auth()->user()->id)
                         ->get();
-            
 
-
-            // return 'petugas';
             return view('PengurusAsrama.RekamMedis.rekammedis',[
                 'rekmeds' => $data,
-                'title' => "Rekam Medis"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis"
             ]);
         }
-
-        // return $data;
     }
 
     /**
@@ -83,9 +80,6 @@ class RekamMedisController extends Controller
                     ->select('mahasiswas.*')
                     ->where('rekam_medis.id',$rekmeds)
                     ->first();
-        
-                    // return $data;
-       
                     
         if($data){
             if(auth()->user()->role == 'mahasiswa'){
@@ -93,7 +87,8 @@ class RekamMedisController extends Controller
                     return view('Mahasiswa.RekamMedis.show',[
                         'rekmed' => RekamMedis::where('id',$rekmeds)->first(),
                         'mahasiswa' => $data,
-                        'title' => "Rekam Medis / Detail Rekam Medis"
+                        'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis / Detail Rekam Medis"
                     ]);
                 }else{
                     return back();
@@ -102,13 +97,13 @@ class RekamMedisController extends Controller
                 return view('PengurusAsrama.RekamMedis.show',[
                     'rekmed' => RekamMedis::where('id',$rekmeds)->first(),
                     'mahasiswa' => $data,
-                    'title' => "Rekam Medis / Detail Rekam Medis"
+                    'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis / Detail Rekam Medis"
                 ]);
             }
         }else{
             return back();
         }
-        
     }
 
     /**

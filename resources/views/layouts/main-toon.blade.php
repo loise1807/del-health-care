@@ -10,6 +10,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <head>
 
+  
+
   <title>
     @if (isset($title))
     DHC | {{ $title }}
@@ -17,6 +19,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     Del Health Care
     @endif
   </title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    .notification {
+      /* background-color: #555; */
+      color: white;
+      text-decoration: none;
+      padding: 15px 26px;
+      position: relative;
+      /* display: inline-block; */
+      border-radius: 2px;
+    }
+    
+    
+    .notification .badge {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      padding: 5px 10px;
+      border-radius: 50%;
+      background-color: #07be94;
+      color: white;
+    }
+    </style>
   
   <link rel="shortcut icon" href="/img/del.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -32,8 +61,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         function hideURLbar() {
             window.scrollTo(0, 1);
         }
+        
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+        }
+        
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
+        }
 
     </script>
+
     <!-- //Meta tag Keywords -->
 
     <!-- Custom-Files -->
@@ -60,6 +98,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <body>
+
+  
     <!-- mian-content -->
     <section class="main-content" id="home">
 

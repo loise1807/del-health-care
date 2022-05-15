@@ -2,16 +2,17 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\User;
 
 use App\Models\Asrama;
 use App\Models\Dokter;
 use App\Models\Mahasiswa;
-use App\Models\PetugasAsrama;
-use App\Models\RekamMedis;
 use App\Models\ReqKonsul;
+use App\Models\Notifikasi;
+use App\Models\RekamMedis;
+use App\Models\PetugasAsrama;
 use App\Models\RiwayatPenyakit;
-use App\Models\User;
+use Illuminate\Database\Seeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -235,6 +236,38 @@ class DatabaseSeeder extends Seeder
         RiwayatPenyakit::create([
             'mhs_id' => 3,
             'nama_penyakit' => 'Anemia'
+        ]);
+
+        Notifikasi::create([
+            'pengirim_id' => 2,
+            'penerima_id' => 4,
+            'judul' => 'Permintaan Konsultasi Diterima',
+            'isi' => 'Nanti telat 5 menit ya',
+            'status' => 0
+        ]);
+
+        Notifikasi::create([
+            'pengirim_id' => 2,
+            'penerima_id' => 4,
+            'judul' => 'Permintaan Konsultasi Diterima 2',
+            'isi' => 'Nanti telat 10 menit ya',
+            'status' => 0
+        ]);
+
+        Notifikasi::create([
+            'pengirim_id' => 2,
+            'penerima_id' => 4,
+            'judul' => 'Permintaan Konsultasi Diterima 3',
+            'isi' => 'Nanti telat 11 menit ya',
+            'status' => 0
+        ]);
+
+        Notifikasi::create([
+            'pengirim_id' => 2,
+            'penerima_id' => 4,
+            'judul' => 'Permintaan Konsultasi Diterima 4',
+            'isi' => 'Nanti telat 30 menit ya',
+            'status' => 0
         ]);
 
     }

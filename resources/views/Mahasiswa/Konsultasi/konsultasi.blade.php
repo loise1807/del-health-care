@@ -15,7 +15,7 @@
 
 
 
-<div class="container mt-5">
+<div class="container mt-5 col-md-10">
   <div class="table-responsive">
     @if(session()->has('success-create'))
     <div class="alert alert-success" role="alert">
@@ -63,15 +63,15 @@
             <td>{!! $konsultasi->status !!}</td>
             <td>
               @if ($konsultasi->acc_dokter == null)
-              <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></a>
-              <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}/edit" class="badge btn-warning"><i class="bi bi-pencil-fill"></i></a>
+              <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}" class="badge badge-dark"><i class="bi bi-eye-fill"></i></a>
+              <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}/edit" class="badge badge-warning"><i class="bi bi-pencil-fill"></i></a>
               <form action="/mahasiswa/konsultasi/{{$konsultasi->id}}" method="POST" class="d-inline">
                 @method('DELETE')
                 @csrf
-                <button class="badge btn-danger text-decoration-none border-0" onclick="return confirm('Yakin ingin menghapus?')"><i class="bi bi-trash3-fill"></i></button>
+                <button class="badge badge-danger text-decoration-none border-0" onclick="return confirm('Yakin ingin menghapus?')"><i class="bi bi-trash3-fill"></i></button>
               </form>
               @elseif($konsultasi->acc_dokter == 'Setuju' || $konsultasi->acc_dokter == 'Tidak Setuju')
-              <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></a>
+              <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}" class="badge badge-dark"><i class="bi bi-eye-fill"></i></a>
               @endif
             </td>
           </tr>

@@ -17,13 +17,22 @@
 
 <div class="container mt-5">
   <div class="table-responsive">
-    @if(session()->has('success'))
-    <div class="alert alert-success" role="alert">
+    @if(session()->has('success-create'))
+    <div class="alert alert-success col-lg-4" role="alert">
       {{ session('success') }}
     </div>
+    @elseif(session()->has('success-update'))
+    <div class="alert alert-warning col-lg-4" role="alert">
+      {{ session('success-update') }}
+    </div>
+    @elseif(session()->has('success-delete'))
+    <div class="alert alert-warning col-lg-4" role="alert">
+      {{ session('success-delete') }}
+    </div>
     @endif
+
     <h1 class="mb-3" style="color: #07be94">Daftar Rekam Medis</h1>
-    <a href="/dokter/rekammedis/create" class="btn text-white mb-3" style="background-color: #07be94;"><i class="bi bi-clipboard2-plus"></i> Rekam Medis</a>
+    <a href="/dokter/rekammedis/create" class="btn text-white mb-3" style="background-color: #07be94;"><i class="bi bi-clipboard2-plus"></i> Tambah Rekam Medis</a>
       <table class="table table-hover table-striped table-lg" style="border-color: #07be94">
         <thead>
           <tr>

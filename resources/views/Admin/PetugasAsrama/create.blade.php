@@ -1,18 +1,7 @@
 @extends('Admin.main')
 
-@section('container') 
+@section('container-admin') 
 
-
-<div class="page-inner">
-
-</div>
-<!---->
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">
-        <a href="/">Beranda</a>
-    </li>
-    <li class="breadcrumb-item active">Konsultasi</li>
-</ol>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h1 class="h2">Tambah Pengurus Asrama</h1>
 </div>

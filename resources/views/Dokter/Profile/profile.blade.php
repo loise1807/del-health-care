@@ -44,11 +44,11 @@
             <div class="col-md-3">
               @if($dokter->image)
               <div style="overflow:hidden;" class="mt-3 mb-3">
-                <img class="" src="{{ asset('storage/' . $dokter->image) }}" alt="profile-image" style="height: 350px;width:190px">
+                <img class="" src="{{ asset('storage/' . $dokter->image) }}" alt="https://source.unsplash.com/190x350?people" style="height: 350px;width:190px">
               </div>
               @else
               <div style="max-height: 300px; max-width:200px; overflow:hidden;">
-                <img class="" src="https://source.unsplash.com/190x350?people" alt="profile-image">
+                <img class="" src="https://source.unsplash.com/190x350?doctor" alt="profile-image">
               </div>
               @endif
             </div>

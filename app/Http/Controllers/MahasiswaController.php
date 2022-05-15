@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use DB;
 use App\Models\User;
 use App\Models\Asrama;

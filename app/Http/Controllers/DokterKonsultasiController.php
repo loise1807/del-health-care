@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Mahasiswa;
 use App\Models\ReqKonsul;
 use Illuminate\Http\Request;
@@ -20,15 +21,16 @@ class DokterKonsultasiController extends Controller
                     ->orderBy('req_konsuls.tgl_konsul', 'desc')
                     ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'req_konsuls.mhs_id')
                     ->leftJoin('dokters', 'dokters.id', '=', 'req_konsuls.dokter_id')
-                    ->select('req_konsuls.*','mahasiswas.nama as nama_mahasiswa','dokters.nama as nama_dokter')
-                    ->where('dokter_id', auth()->user()->id)
+                    ->select('req_konsuls.*','mahasiswas.nama as nama_mahasiswa','mahasiswas.no_telp as telp_mahasiswa','dokters.nama as nama_dokter')
+                    ->where('dokters.user_id', auth()->user()->id)
                     ->get();
 
         // return $data;
-        // return view('Dokter.RekamMedis.rekammedis')->with('rekammedis',$data);
+
         return view('Dokter.Konsultasi.konsultasi',[
             'konsultasis' => $data,
-            'title' => "Konsultasi"
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Konsultasi"
         ]);
     }
 
@@ -42,9 +44,23 @@ class DokterKonsultasiController extends Controller
         //
     }
 
-    public function terima(ReqKonsul $reqKonsul)
+    public function terima(ReqKonsul $reqKonsul, Request $request)
     {
-        // return $reqKonsul;
+        $mahasiswa = Mahasiswa::find($reqKonsul->mhs_id);
+        // return $mahasiswa;
+
+        $validatedData = $request->validate([
+            'judul' => 'required',
+            'isi' => 'required'
+        ]);
+
+        $validatedData['pengirim_id'] = auth()->user()->id;
+        $validatedData['penerima_id'] = $mahasiswa->user_id;
+        $validatedData['status'] = 0;
+        $validatedData['bgcolor'] = 'rgb(7, 190, 148,0.2)';
+
+        Notifikasi::create($validatedData);
+
         ReqKonsul::where('id',$reqKonsul->id)
                     ->update([
                         'status' => 'Diterima',
@@ -54,9 +70,22 @@ class DokterKonsultasiController extends Controller
         return redirect('/dokter/konsultasi')->with('success','Konsultasi berhasil diterima');
     }
 
-    public function tolak(ReqKonsul $reqKonsul)
+    public function tolak(ReqKonsul $reqKonsul, Request $request)
     {
-        // return $reqKonsul;
+        $mahasiswa = Mahasiswa::find($reqKonsul->mhs_id);
+
+        $validatedData = $request->validate([
+            'judul' => 'required',
+            'isi' => 'required'
+        ]);
+
+        $validatedData['pengirim_id'] = auth()->user()->id;
+        $validatedData['penerima_id'] = $mahasiswa->user_id;
+        $validatedData['status'] = 0;
+        $validatedData['bgcolor'] = 'rgb(255, 0, 0,0.2)';
+
+        Notifikasi::create($validatedData);
+
         ReqKonsul::where('id',$reqKonsul->id)
                     ->update([
                         'status' => 'Ditolak',
@@ -85,11 +114,11 @@ class DokterKonsultasiController extends Controller
      */
     public function show(ReqKonsul $reqKonsul)
     {
-        // return $reqKonsul;
         return view('Dokter.Konsultasi.show',[
             'reqKonsul' => $reqKonsul,
             'mahasiswa' => Mahasiswa::find($reqKonsul->mhs_id),
-            'title' => "Konsultasi / Detail Konsultasi"
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Konsultasi / Detail Konsultasi"
         ]);
     }
 

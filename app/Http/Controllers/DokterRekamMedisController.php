@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Mahasiswa;
 use App\Models\RekamMedis;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ class DokterRekamMedisController extends Controller
         // return view('Dokter.RekamMedis.rekammedis')->with('rekammedis',$data);
         return view('Dokter.RekamMedis.rekammedis',[
             'rekammedis' => $data,
-            'title' => "Rekam Medis"
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis"
         ]);
     }
 
@@ -42,7 +44,8 @@ class DokterRekamMedisController extends Controller
                     ->get();
         return view('Dokter.RekamMedis.create',[
             'mahasiswas' => $data,
-            'title' => "Rekam Medis / Tambah Rekam Medis"
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis / Tambah Rekam Medis"
         ]);
     }
 
@@ -54,7 +57,6 @@ class DokterRekamMedisController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
         $validateData = $request->validate([
             'mhs_id' => 'required',
             'gejala' => 'required|max:255',
@@ -62,11 +64,9 @@ class DokterRekamMedisController extends Controller
             'deskripsi' => 'required|max:255'
         ]);
 
-        // // return dd($validateData);
-
         RekamMedis::create($validateData);
 
-        return redirect('/dokter/rekammedis')->with('success','Data Rekam Medis berhasil ditambah!');
+        return redirect('/dokter/rekammedis')->with('success-create','Data Rekam Medis berhasil ditambah!');
     }
 
     /**
@@ -77,12 +77,12 @@ class DokterRekamMedisController extends Controller
      */
     public function show(RekamMedis $rekamMedis)
     {
-        // return $rekamMedis;
         if(Gate::allows('home-dokter')){
             return view('Dokter.RekamMedis.show',[
                 'rekammedis' => $rekamMedis,
                 'mahasiswa' => Mahasiswa::find($rekamMedis->mhs_id),
-                'title' => "Rekam Medis / Detail Rekam Medis"
+                'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis / Detail Rekam Medis"
             ]);
         }
     }
@@ -103,7 +103,8 @@ class DokterRekamMedisController extends Controller
         return view('Dokter.RekamMedis.edit',[
             'rekammedis' => $rekamMedis,
             'mahasiswa' => $data,
-            'title' => "Rekam Medis / Edit Rekam Medis"
+            'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
+            'title' =>"Rekam Medis / Edit Rekam Medis"
         ]);
 
     }
@@ -117,8 +118,6 @@ class DokterRekamMedisController extends Controller
      */
     public function update(Request $request, RekamMedis $rekamMedis)
     {
-        // return $request;
-        
         $rules = [
             'gejala' => 'required',
             'diagnosa' => 'required',
@@ -131,7 +130,7 @@ class DokterRekamMedisController extends Controller
         RekamMedis::where('id',$request->id)
             ->update($validateData);
 
-        return redirect('/dokter/rekammedis')->with('success','Rekam Medis sudah diubah');
+        return redirect('/dokter/rekammedis')->with('success-update','Rekam Medis sudah diubah');
     }
 
 
@@ -145,6 +144,6 @@ class DokterRekamMedisController extends Controller
     {
         RekamMedis::destroy($rekamMedis->id);
 
-        return redirect('/dokter/rekammedis')->with('success','Data Rekam Medis di hapus!');
+        return redirect('/dokter/rekammedis')->with('success-delete','Data Rekam Medis di hapus!');
     }
 }

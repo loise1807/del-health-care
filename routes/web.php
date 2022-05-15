@@ -8,16 +8,18 @@ use App\Models\Asrama;
 /* Admin */
 use App\Models\Dokter;
 use App\Models\Mahasiswa;
+use App\Models\Notifikasi;
 use App\Models\PetugasAsrama;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AkunController;
-use App\Http\Controllers\LoginController;
 
 /* Dokter */
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AsramaController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\HubungkanAkunController;
 use App\Http\Controllers\PetugasAsramaController;
@@ -50,7 +52,12 @@ use App\Http\Controllers\DokterriwayatpenyakitController;
 // });
 
 Route::get('/', function () {
-    return view('home');
+  if(auth()->user()){
+    return view('home',[
+      'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() 
+    ]);
+  }
+  return view('home');
 });
 
 Route::get('/login', [LoginController::class,'index'])->middleware('guest');
@@ -94,8 +101,9 @@ Route::get('dokter/rekammedis/{rekamMedis}/edit',[DokterRekamMedisController::cl
 /* Dokter - Request Konsultasi*/
 Route::resource('dokter/konsultasi', DokterKonsultasiController::class)->except('show','destroy','edit')->middleware('dokter');
 Route::get('dokter/konsultasi/{reqKonsul}',[DokterKonsultasiController::class,'show'])->middleware('dokter');
-Route::get('dokter/konsultasi/{reqKonsul}/terima',[DokterKonsultasiController::class,'terima'])->middleware('dokter');
-Route::get('dokter/konsultasi/{reqKonsul}/tolak',[DokterKonsultasiController::class,'tolak'])->middleware('dokter');
+// Route::get('dokter/konsultasi/{reqKonsul}/terima',[DokterKonsultasiController::class,'terima'])->middleware('dokter');
+Route::put('dokter/konsultasi/{reqKonsul}/terima',[DokterKonsultasiController::class,'terima'])->middleware('dokter');
+Route::put('dokter/konsultasi/{reqKonsul}/tolak',[DokterKonsultasiController::class,'tolak'])->middleware('dokter');
 
 /* Mahasiswa - Request Konsultasi*/
 Route::resource('mahasiswa/konsultasi', MahasiswaKonsultasiController::class)->except('show','destroy','edit')->middleware('mahasiswa');
@@ -142,3 +150,8 @@ Route::put('/dokter/password/{user}', [ProfileController::class,'updatePassword'
 Route::get('/petugas/password', [ProfileController::class,'indexPassword'])->middleware('pengurus');
 Route::put('/petugas/password/{user}', [ProfileController::class,'updatePassword'])->middleware('pengurus');
 
+Route::resource('/notifikasi',NotifikasiController::class)->middleware('auth');
+Route::put('notifikasi/{notifikasi}/belum_dibaca',[NotifikasiController::class,'belum_dibaca'])->middleware('auth');
+Route::put('notifikasi/{notifikasi}/telah_dibaca',[NotifikasiController::class,'telah_dibaca'])->middleware('auth');
+Route::put('notifikasi/{notifikasi}/hapus_semua',[NotifikasiController::class,'hapus'])->middleware('auth');
+// Route::get('/notifikasi/{notifikasi}/delete',[NotifikasiController::class,'delete'])->middleware('auth');

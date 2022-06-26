@@ -26,6 +26,8 @@ class CreateMahasiswasTable extends Migration
             $table->string('image')->nullable();
             $table->string('no_telp')->nullable();
             $table->date('tanggal_lahir')->nullable();
+            $table->string('no_bpjs')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

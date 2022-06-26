@@ -22,7 +22,7 @@
       @endif
 
       <div class="table-responsive col-lg-12">
-      <a href="/admin/petugas_asramas/create" class="btn btn-success mb-3">Tambah Pengurus Asrama</a>
+      <a href="/admin/petugas_asramas/create" class="btn mb-3" style="background-color: #07be94;color:white">Tambah Pengurus Asrama</a>
         <table class="table table-striped table-sm">
           <thead>
             <tr>

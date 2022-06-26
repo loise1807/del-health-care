@@ -17,9 +17,10 @@ class CreateRekamMedisTable extends Migration
             $table->id();
             $table->unsignedBigInteger('mhs_id');
             $table->timestamp('tanggal')->nullable;
-            $table->string('gejala');
-            $table->string('diagnosa');
-            $table->text('deskripsi');
+            $table->text('anamnesa');
+            $table->text('pemeriksaan_fisik');
+            $table->text('diagnosa');
+            $table->text('plksn_edukasi');
             $table->timestamps();
 
             $table->foreign('mhs_id')->references('id')->on('mahasiswas');

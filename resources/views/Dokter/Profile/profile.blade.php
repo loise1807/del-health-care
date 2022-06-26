@@ -44,7 +44,7 @@
             <div class="col-md-3">
               @if($dokter->image)
               <div style="overflow:hidden;" class="mt-3 mb-3">
-                <img class="" src="{{ asset('storage/' . $dokter->image) }}" alt="https://source.unsplash.com/190x350?people" style="height: 350px;width:190px">
+                <img class="" src="{{ asset('storage/' . $dokter->image) }}" alt="https://source.unsplash.com/190x350?doctor" style="height: 350px;width:190px">
               </div>
               @else
               <div style="max-height: 300px; max-width:200px; overflow:hidden;">
@@ -84,7 +84,7 @@
                 <div>
                   <div class="col-md-6">
                     <p class="card-text"><small class="text-muted">Last updated {{ $dokter->updated_at->diffForHumans() }}</small></p>
-                    <a href="/dokter/profile/{{ $dokter->id }}" class="btn text-white mb-3" style="background-color: #07be94;">Ubah Data</a>
+                    <a href="/dokter/profile/{{ $dokter->no_pegawai_dokter }}" class="btn text-white mb-3" style="background-color: #07be94;">Ubah Data</a>
                   </div>
                 </div>
       

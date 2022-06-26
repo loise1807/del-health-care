@@ -127,7 +127,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <h2>
                         <a href="index.html" style="background-color: transparent; color:#ffffff">Del <span style="background-color: transparent; color:#ffffff">Health Care</span></a>
                     </h2>
-                    <p class="my-4 text-justify">Maecenas interdum, metus vitae tincidunt porttitor, magna quam egestas sem, ac scelerisque nisl nibh vel lacus. Proin eget gravida odio.</p>
+                    <p class="my-4 text-justify">Sistem Informasi untuk melakukan permintaan Konsultasi oleh Mahasiswa/i Del dengan Dokter yang ada di Clinic serta melakukan pemantauan kesehatan secara Berkala.</p>
                     <h3 style="color: white">Follow Us</h3>
                     <div class="text-center d-flex">
                         <a href="https://www.facebook.com/Institut.Teknologi.Del" class="badge mr-2" style="background: linear-gradient(#000046, #1cb5e0);" target="_blank">

@@ -151,10 +151,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function editDokter($dokter)
+    public function editDokter($no_pegawai_dokter)
     {
         return view('Dokter.Profile.edit',[
-            'dokter' => Dokter::find($dokter),
+            'dokter' => Dokter::where('no_pegawai_dokter',$no_pegawai_dokter)->first(),
             'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
             'title' =>'Profile / Edit Profile'
         ]);

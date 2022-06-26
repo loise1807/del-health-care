@@ -2,7 +2,13 @@
 <html lang="en">
   <head >
     <meta charset="utf-8">
-    <title>Del Health Care | Home</title>
+    <title>
+      @if (isset($title))
+      DHC | {{ $title }}
+      @else
+      DHC | Dashboard
+      @endif
+    </title>
 
     <link rel="shortcut icon" href="/img/del.png">
 

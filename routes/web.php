@@ -94,9 +94,10 @@ Route::get('/dokter/riwayatpenyakits/{riwayatPenyakit}/edit',[Dokterriwayatpenya
 
 /* Dokter - Rekam Medis*/
 Route::resource('dokter/rekammedis', DokterRekamMedisController::class)->except('show','destroy','edit')->middleware('dokter');
-Route::get('dokter/rekammedis/{rekamMedis}',[DokterRekamMedisController::class,'show'])->middleware('dokter');
+Route::get('dokter/rekammedis/{mhs_id}',[DokterRekamMedisController::class,'show'])->middleware('dokter');
 Route::delete('dokter/rekammedis/{rekamMedis}',[DokterRekamMedisController::class,'destroy'])->middleware('dokter');
 Route::get('dokter/rekammedis/{rekamMedis}/edit',[DokterRekamMedisController::class,'edit'])->middleware('dokter');
+Route::get('dokter/rekammedis/show/{rekamMedis}',[DokterRekamMedisController::class,'showDetail'])->middleware('dokter');
 
 /* Dokter - Request Konsultasi*/
 Route::resource('dokter/konsultasi', DokterKonsultasiController::class)->except('show','destroy','edit')->middleware('dokter');
@@ -117,6 +118,8 @@ Route::resource('mahasiswa/rekmeds', RekamMedisController::class)->middleware('m
 Route::resource('mahasiswa/riwayatpenyakits', RiwayatPenyakitController::class)->middleware('mahasiswa');
 
 Route::resource('pengurus/rekmeds', RekamMedisController::class)->middleware('pengurus');
+Route::get('pengurus/rekmeds/show/{rekamMedis}',[RekamMedisController::class,'showDetail'])->middleware('pengurus');
+
 // Route::resource('pengurus/rekmeds', RekamMedisController::class)->middleware('auth');
 
 // Pengurus - Riwayat Penyakit

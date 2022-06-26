@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Asrama;
 use Illuminate\Http\Request;
 use App\Models\PetugasAsrama;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PetugasAsramaController extends Controller
@@ -55,6 +56,22 @@ class PetugasAsramaController extends Controller
             'no_telp' => 'nullable|integer',
             'image' => 'image|file|max:1024'
         ]);
+
+        $akun = $request->validate([
+            'username' => 'required|unique:users',
+            'password' => 'required',
+            'repassword' => 'same:password'
+        ]);
+
+        $akun['password'] = Hash::make($request->password);
+        $akun['role'] = 'petugas';
+        $akun['status'] = 1;
+
+        User::create($akun);
+
+        $id_akun =User::where('username',$request->username)->first();
+
+        $validateData['user_id'] = $id_akun['id'];
 
         if($request->file('image')){
             $validateData['image'] = $request->file('image')->store('gambar-pengurus');
@@ -153,6 +170,9 @@ class PetugasAsramaController extends Controller
             Storage::delete($petugasAsrama->image);
         }
 
+        if($petugasAsrama->user_id != null){
+            User::destroy($petugasAsrama->user_id);
+        }
         PetugasAsrama::destroy($petugasAsrama->id);
         return redirect('/admin/petugas_asramas')->with('success-delete','Data Pengurus Asrama di hapus!');
     }

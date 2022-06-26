@@ -173,29 +173,29 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Bapak Asrama'
         ]);
 
-        RekamMedis::create([
-            'mhs_id' => 1,
-            'tanggal' => now(),
-            'gejala' => 'Batuk',
-            'Diagnosa' => 'Covid',
-            'deskripsi' => 'BatukBatukBatuk'
-        ]);
+        // RekamMedis::create([
+        //     'mhs_id' => 1,
+        //     'tanggal' => now(),
+        //     'gejala' => 'Batuk',
+        //     'Diagnosa' => 'Covid',
+        //     'deskripsi' => 'BatukBatukBatuk'
+        // ]);
 
-        RekamMedis::create([
-            'mhs_id' => 2,
-            'tanggal' => now(),
-            'gejala' => 'Flu',
-            'Diagnosa' => 'Mutaber',
-            'deskripsi' => 'okawokaokawkoaw'
-        ]);
+        // RekamMedis::create([
+        //     'mhs_id' => 2,
+        //     'tanggal' => now(),
+        //     'gejala' => 'Flu',
+        //     'Diagnosa' => 'Mutaber',
+        //     'deskripsi' => 'okawokaokawkoaw'
+        // ]);
 
-        RekamMedis::create([
-            'mhs_id' => 3,
-            'tanggal' => now(),
-            'gejala' => 'Pusing terlalu cepat',
-            'Diagnosa' => 'Kurang Darah',
-            'deskripsi' => 'awww'
-        ]);
+        // RekamMedis::create([
+        //     'mhs_id' => 3,
+        //     'tanggal' => now(),
+        //     'gejala' => 'Pusing terlalu cepat',
+        //     'Diagnosa' => 'Kurang Darah',
+        //     'deskripsi' => 'awww'
+        // ]);
 
         ReqKonsul::create([
             'mhs_id' => 1,
@@ -238,6 +238,8 @@ class DatabaseSeeder extends Seeder
             'nama_penyakit' => 'Anemia'
         ]);
 
+
+        /** 
         Notifikasi::create([
             'pengirim_id' => 2,
             'penerima_id' => 4,
@@ -269,6 +271,7 @@ class DatabaseSeeder extends Seeder
             'isi' => 'Nanti telat 30 menit ya',
             'status' => 0
         ]);
+        */
 
     }
 }

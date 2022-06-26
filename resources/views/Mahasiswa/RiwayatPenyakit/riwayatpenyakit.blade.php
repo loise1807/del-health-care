@@ -15,16 +15,16 @@
 
 
 
-<div class="container mt-5 text-center" >
+<div class="container mt-5" >
   <div class="table-responsive">
   
     <h1 class="mb-3" style="color: #07be94">Daftar Riwayat Penyakit</h1>
       <table class="table table-striped table-md">
         <thead>
           <tr>
-            <th scope="col" class="text-center">#</th>
-            <th scope="col" class="text-center">Nama Penyakit</th>
-            <th scope="col" class="text-center">Aksi</th>
+            <th scope="col" class="">#</th>
+            <th scope="col" class="">Nama Penyakit</th>
+            <th scope="col" class="">Aksi</th>
           </tr>
         </thead>
         <tbody>

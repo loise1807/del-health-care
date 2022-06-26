@@ -59,7 +59,9 @@ class DokterKonsultasiController extends Controller
         $validatedData['status'] = 0;
         $validatedData['bgcolor'] = 'rgb(7, 190, 148,0.2)';
 
-        Notifikasi::create($validatedData);
+        if($mahasiswa->user_id != null){
+            Notifikasi::create($validatedData);
+        }
 
         ReqKonsul::where('id',$reqKonsul->id)
                     ->update([

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notifikasi;
 use DB;
 use App\Models\User;
 use App\Models\Asrama;
 use App\Models\Mahasiswa;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
@@ -42,7 +43,8 @@ class MahasiswaController extends Controller
     public function create()
     {
         return view('Admin.Mahasiswa.create',[
-            'asramas' => Asrama::all()
+            'asramas' => Asrama::all(),
+            'title' => 'Tambah Mahasiswa'
         ]);
     }
 
@@ -54,7 +56,8 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $validateData = $request->validate([
+        // return Hash::make($request->password);
+        $mahasiswa = $request->validate([
             'asrama_id' => 'required',
             'nim' => 'required|unique:mahasiswas',
             'nama' => 'required',
@@ -64,14 +67,35 @@ class MahasiswaController extends Controller
             'alamat' => 'nullable',
             'no_telp' => 'nullable|integer',
             'tanggal_lahir' => 'nullable',
+            'no_bpjs' => 'nullable',
+            'status' => 'nullable',
             'image' => 'image|file|max:1024'
         ]);
 
+        $akun = $request->validate([
+            'username' => 'required|unique:users',
+            'password' => 'required',
+            'repassword' => 'same:password'
+        ]);
+
+        $akun['password'] = Hash::make($request->password);
+        $akun['role'] = 'mahasiswa';
+        $akun['status'] = 1;
+
+        User::create($akun);
+
+        $id_akun =User::where('username',$request->username)->first();
+
+        $mahasiswa['user_id'] = $id_akun['id'];
+
+
         if($request->file('image')){
-            $validateData['image'] = $request->file('image')->store('gambar-mahasiswa');
+            $mahasiswa['image'] = $request->file('image')->store('gambar-mahasiswa');
         }
 
-        Mahasiswa::create($validateData);
+        Mahasiswa::create($mahasiswa);
+        // Mahasiswa::where('nim',$request->nim)
+        //         ->update(['user_id' => $id_akun]);
 
         return redirect('/admin/mahasiswas')->with('success-create','Data Mahasiswa berhasil ditambah!');
     }
@@ -167,7 +191,10 @@ class MahasiswaController extends Controller
         if($mahasiswa->image){
             Storage::delete($mahasiswa->image);
         }
-
+        
+        if($petugasAsrama->user_id != null){
+            User::destroy($mahasiswa->user_id);
+        }
         Mahasiswa::destroy($mahasiswa->id);
         return redirect('/admin/mahasiswas')->with('success-delete','Data Mahasiswa di hapus!');
     }

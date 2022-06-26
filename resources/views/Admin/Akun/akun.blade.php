@@ -12,7 +12,7 @@
       @endif
 
       <div class="table-responsive col-lg-8">
-      <a href="/admin/users/create" class="btn btn-primary mb-3">Tambah Akun</a>
+      <a href="/admin/users/create" class="btn mb-3" style="background-color: #07be94;color:white">Tambah Akun</a>
         <table class="table table-striped table-sm">
           <thead>
             <tr>

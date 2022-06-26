@@ -14,6 +14,7 @@
 </ol>
 
 
+
 <div class="container mt-5">
   <div class="card border-2">
     <div class="card-body">
@@ -35,7 +36,6 @@
             <td>{{$loop->iteration}}</td>
             <td>{{ $riwayatpenyakit->nama_penyakit }} </td>
             <td class="text-center">
-              {{-- <a href="/pengurus/riwayatpenyakits/{{$riwayatpenyakit->id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></span></a> --}}
               <a href="/pengurus/riwayatpenyakits/{{$riwayatpenyakit->id}}/edit" class="badge bg-warning"><i class="bi bi-pen"></i></span></a>
               <form action="/pengurus/riwayatpenyakits/{{$riwayatpenyakit->id}}" method="post" class="d-inline">
                 @method('delete')
@@ -47,13 +47,11 @@
           @endforeach
         </tbody>
       </table>
-      <a href="/pengurus/riwayatpenyakits" class="btn btn-success"><i class="bi bi-arrow-return-left"></i></a>
-      <a href="/pengurus/riwayatpenyakits/{{$riwayatpenyakit->id}}/edit" class="btn bg-warning"><i class="bi bi-pen"></i></span></a>
-      <form action="/pengurus/riwayatpenyakits/{{$riwayatpenyakit->id}}" method="post" class="d-inline">
-        @method('delete')
-        @csrf
-        <button class="btn bg-danger text-decoration-none border-0" onclick="return confirm('Yakin ingin menghapus?')"><i class="bi bi-trash3-fill"></i></span></button>
-      </form>
+      
+      <a href="/pengurus/riwayatpenyakits" class="btn btn-primary"><i class="bi bi-arrow-return-left"> Kembali</i></a>
+      @if ($mahasiswa->no_telp != null)
+      <a href="https://api.whatsapp.com/send/?phone=62{{ $mahasiswa->no_telp }}" target=".blank" class="btn btn-success"><i class="bi bi-whatsapp"> Whatsapp</i></a>
+      @endif
     </div>
   </div>
 </div>

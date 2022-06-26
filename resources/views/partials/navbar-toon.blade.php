@@ -40,7 +40,7 @@
         {{-- <a href="#" ><i class="bi bi-bell-fill"> </i></a> --}}
         <a href="#" class="notification">
           <i class="bi bi-bell-fill"> </i>
-          @if($notifikasis->count() != 0)
+          @if($notifikasis->count() != 0 && $notifikasis->where('status',0)->count() > 0)
           <span class="badge">{{ $notifikasis->where('status',0)->count() }}</span>
           @endif
         </a>

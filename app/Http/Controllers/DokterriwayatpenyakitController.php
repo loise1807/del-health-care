@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notifikasi;
+use App\Models\User;
 use App\Models\Mahasiswa;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\RiwayatPenyakit;
 use Illuminate\Support\Facades\DB;
@@ -19,34 +20,32 @@ class DokterriwayatpenyakitController extends Controller
      */
     public function index()
     {
-        if(request('search')){
-            // return request('search');
-            $data = DB::table('riwayat_penyakits')
-                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
-                        ->select('riwayat_penyakits.*','mahasiswas.nama as nama_mahasiswa')
-                        ->get();
+        $data = DB::table('riwayat_penyakits')
+                    ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
+                    ->select('riwayat_penyakits.*','mahasiswas.nama as nama_mahasiswa','mahasiswas.prodi as prodi_mahasiswa','mahasiswas.angkatan as angkatan_mahasiswa')
+                    ->get();
               
+        $names = RiwayatPenyakit::select('mhs_id')
+                    ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
+                    ->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa','mahasiswas.prodi as prodi_mahasiswa','mahasiswas.angkatan as angkatan_mahasiswa','mahasiswas.no_telp as no_telp')
+                    ->orderBy('nama_mahasiswa','asc')
+                    ->distinct()
+                    ->get();
+
+        if(request('search')){
             $names = RiwayatPenyakit::select('mhs_id')
                         ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
-                        ->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')
+                        ->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa','mahasiswas.prodi as prodi_mahasiswa','mahasiswas.angkatan as angkatan_mahasiswa','mahasiswas.no_telp as no_telp')
                         ->orderBy('nama_mahasiswa','asc')
                         ->distinct()
                         ->where('mahasiswas.nama','like', '%'.request('search').'%')
+                        ->orwhere('mahasiswas.prodi','like', '%'.request('search').'%')
+                        ->orwhere('mahasiswas.angkatan','like', '%'.request('search').'%')
                         ->orwhere('riwayat_penyakits.nama_penyakit','like', '%'.request('search').'%')
                         ->get();
-        }else{
-            $data = DB::table('riwayat_penyakits')
-                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
-                        ->select('riwayat_penyakits.*','mahasiswas.nama as nama_mahasiswa')
-                        ->get();
-              
-            $names = RiwayatPenyakit::select('mhs_id')
-                        ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')
-                        ->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')
-                        ->orderBy('nama_mahasiswa','asc')
-                        ->distinct()
-                        ->get();
         }
+        
+        
 
         // return view('Dokter.RiwayatPenyakit.riwayatpenyakit')->with('riwayatpenyakits',$data,);
         if(auth()->user()->role == 'dokter'){
@@ -54,14 +53,14 @@ class DokterriwayatpenyakitController extends Controller
                 'names' => $names,
                 'riwayatpenyakits' => RiwayatPenyakit::all(),
                 'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
-            'title' =>"Riwayat Penyakit"
+                'title' =>"Riwayat Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.riwayatpenyakit',[
-                'names' => RiwayatPenyakit::select('mhs_id')->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'riwayat_penyakits.mhs_id')->select('riwayat_penyakits.mhs_id','mahasiswas.nama as nama_mahasiswa')->distinct()->get(),
-                'riwayatpenyakits' => $data,
+                'names' => $names,
+                'riwayatpenyakits' => RiwayatPenyakit::all(),
                 'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
-            'title' =>"Riwayat Penyakit"
+                'title' =>"Riwayat Penyakit"
             ]);
         }
 
@@ -131,19 +130,21 @@ class DokterriwayatpenyakitController extends Controller
     //     ]);
     // }
 
-    public function show(RiwayatPenyakit $riwayatPenyakit)
+    public function show($riwayatPenyakit)
     {
+        $mahasiswa = Mahasiswa::find($riwayatPenyakit);
+        $ripe = RiwayatPenyakit::where('mhs_id',$mahasiswa->id)->get();
         if(auth()->user()->role == 'dokter'){
             return view('Dokter.RiwayatPenyakit.show',[
-                'riwayatpenyakits' => RiwayatPenyakit::where('mhs_id',$riwayatPenyakit->id)->get(),
-                'mahasiswa' => Mahasiswa::find($riwayatPenyakit->id),
+                'riwayatpenyakits' => $ripe,
+                'mahasiswa' => $mahasiswa,
                 'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
             'title' =>"Riwayat Penyakit / Detail Penyakit"
             ]);
         }elseif(auth()->user()->role == 'petugas'){
             return view('PengurusAsrama.RiwayatPenyakit.show',[
-                'riwayatpenyakits' => RiwayatPenyakit::where('mhs_id',$riwayatPenyakit->id)->get(),
-                'mahasiswa' => Mahasiswa::find($riwayatPenyakit->id),
+                'riwayatpenyakits' => $ripe,
+                'mahasiswa' => $mahasiswa,
                 'notifikasis' => Notifikasi::where('penerima_id',auth()->user()->id)->orderBy('status','asc')->orderBy('id','desc')->get() ,
             'title' =>"Riwayat Penyakit / Detail Penyakit"
             ]);

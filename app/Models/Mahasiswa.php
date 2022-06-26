@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Asrama;
+use App\Models\RekamMedis;
 use App\Models\RiwayatPenyakit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,11 @@ class Mahasiswa extends Model
     public function riwayatpenyakit()
     {
         return $this->belongsTo(RiwayatPenyakit::class);
+    }
+
+    public function rekammedis()
+    {
+        return $this->hasMany(RekamMedis::class);
     }
 
     

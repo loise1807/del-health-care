@@ -15,8 +15,8 @@
 
 
 
-<div class="container mt-5 col-md-11">
-  <h4 class="mb-2">Daftar Rekam Medis Mahasiswa <i>{{ $mahasiswa->nama }}</i></h4>
+<div class="container mt-5 col-md-10">
+  <h4 class="mb-2">Detail Rekam Medis Mahasiswa <i>{{ $mahasiswa->nama }}</i></h4>
   <div class="card col-md-12" style="border:3px solid;border-color: #07BE94">
     @if(session()->has('success-create'))
     <div class="alert alert-success col-lg-4" role="alert">
@@ -66,47 +66,53 @@
     </div>
 
     <div class="card-body row g-2 col-md-12">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col" >Tanggal</th>
-            <th scope="col" >Anamnesa</th>
-            <th scope="col" >Pemeriksaan Fisik</th>
-            <th scope="col" >Diagnosa</th>
-            <th scope="col" >Penatalaksanaan & Edukasi</th>
-            <th scope="col" class="text-center">Action</th>
-          </tr>
-        </thead>
+    <table class="table table-striped">
         <tbody>
-          @foreach($rekammedis as $rekmeds)
           <tr>
-            <td>{{$loop->iteration}}</td>
-            <td>{{date('d F Y', strtotime($rekmeds->tanggal))}} </td>
-            <td>{{ Str::limit(strip_tags($rekmeds->anamnesa),50) }}</td>
-            <td>{!! Str::limit(($rekmeds->pemeriksaan_fisik),50) !!}</td>
-            <td>{!! Str::limit(($rekmeds->diagnosa),50) !!}</td>
-            <td>{!! Str::limit(($rekmeds->plksn_edukasi),50) !!}</td>
-            <td class="text-center">
-              
-              <a href="/dokter/rekammedis/show/{{$rekmeds->id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></a>
-              <a href="/dokter/rekammedis/{{$rekmeds->id}}/edit" class="badge bg-warning"><i class="bi bi-pencil-fill"></i></a>
-              <form action="/dokter/rekammedis/{{$rekmeds->id}}" method="POST" class="d-inline">
-                @method('DELETE')
-                @csrf
-                <button class="badge bg-danger text-decoration-none border-0" onclick="return confirm('Yakin ingin menghapus?')"><i class="bi bi-trash3-fill"></i></button>
-              </form>
-            </td>
+            <td><b>Tanggal</b></td>
+            <td>{!! $rekammedis->tanggal !!}</td>
           </tr>
-          @endforeach
+          <tr>
+            <td><b>Anamnesa</b></td>
+            <td>{!! $rekammedis->anamnesa !!}</td>
+          </tr>
+          <tr>
+            <td><b>Pemeriksaan Fisik</b></td>
+            <td>{!! $rekammedis->pemeriksaan_fisik !!}</td>
+          </tr>
+          <tr>
+            <td><b>Diagnosa</b></td>
+            <td>{!! $rekammedis->diagnosa !!}</td>
+          </tr>
+          <tr>
+            <td><b>Penatalaksanaan & Edukasi</b></td>
+            <td>{!! $rekammedis->plksn_edukasi !!}</td>
+          </tr>
         </tbody>
       </table>
-      <a href="/dokter/rekammedis" class="btn btn-primary col-lg-2"><i class="bi bi-arrow-return-left"> Kembali</i></a>
+      <a href="/pengurus/rekmeds/{{ $mahasiswa->nim }}" class="btn btn-primary col-lg-2"><i class="bi bi-arrow-return-left"> Kembali</i></a>
     </div>
-    
   </div>
-</div>
-  
 
+</div>
+
+<script>
+  function myFunction() {
+    var dots = document.getElementById("dots");
+    var moreText = document.getElementById("more");
+    var btnText = document.getElementById("myBtn");
+
+  
+    if (dots.style.display === "none") {
+      dots.style.display = "inline";
+      btnText.innerHTML = "Read more"; 
+      moreText.style.display = "none";
+    } else {
+      dots.style.display = "none";
+      btnText.innerHTML = "Read less"; 
+      moreText.style.display = "inline";
+    }
+  }
+  </script>
 
 @endsection

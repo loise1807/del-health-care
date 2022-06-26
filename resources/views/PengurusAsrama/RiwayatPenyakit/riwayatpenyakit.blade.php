@@ -32,7 +32,14 @@
     @endif
     <h1 class="mb-3" style="color: #07be94">Daftar Riwayat Penyakit</h1>
     <a href="/pengurus/riwayatpenyakits/create" class="btn text-white mb-3" style="background-color: #07be94;"><i class="bi bi-file-medical"></i> Tambah Riwayat Penyakit</a>
-
+    <div>
+      <form action="/pengurus/riwayatpenyakits" >
+        <div class="input-group mb-3">
+            <input type="text" class="form-control col-md-4" placeholder="Cari..." name="search" value="{{ request('search') }}">
+          <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+        </div>
+      </form>
+    </div>
     <table class="table table-hover table-striped table-lg" style="border-color: #07be94">
       <thead>
         <tr>
@@ -54,8 +61,11 @@
             @endif
             @endforeach
           </td>
-          <td class="text-center">
+          <td>
             <a href="/pengurus/riwayatpenyakits/{{$name->mhs_id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></span></a>
+              @if ($name->no_telp != null)
+              <a href="https://api.whatsapp.com/send/?phone=62{{ $name->no_telp }}" target=".blank" class="badge bg-success"><i class="bi bi-whatsapp"></i></a>
+              @endif
             {{-- <a href="/dokter/riwayatpenyakits/{{$name->mhs_id}}/edit" class="badge bg-warning"><i class="bi bi-pen"></i></span></a>
             <form action="/dokter/riwayatpenyakits/{{$name->mhs_id}}" method="post" class="d-inline">
               @method('delete')

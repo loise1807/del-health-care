@@ -20,7 +20,7 @@
       @endif
 
       <div class="table-responsive col-lg-12">
-      <a href="/admin/mahasiswas/create" class="btn btn-success mb-3">Tambah Mahasiswa</a>
+      <a href="/admin/mahasiswas/create" class="btn mb-3" style="background-color: #07be94;color:white">Tambah Mahasiswa</a>
         <table class="table table-striped table-sm">
           <thead>
             <tr>

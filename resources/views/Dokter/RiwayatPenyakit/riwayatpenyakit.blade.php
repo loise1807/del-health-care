@@ -35,9 +35,9 @@
     
     <a href="/dokter/riwayatpenyakits/create" class="btn text-white mb-3" style="background-color: #07be94;"><i class="bi bi-file-medical"></i> Tambah Riwayat Penyakit</a>
     <div>
-      <form action="/dokter/riwayatpenyakits">
+      <form action="/dokter/riwayatpenyakits" >
         <div class="input-group mb-3">
-          <input type="text" class="form-control col-md-4" placeholder="Cari..." name="search" value="{{ request('search') }}">
+            <input type="text" class="form-control col-md-4" placeholder="Cari..." name="search" value="{{ request('search') }}">
           <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
         </div>
       </form>
@@ -47,6 +47,8 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col" >Nama Mahasiswa</th>
+            <th scope="col" >Program Studi</th>
+            <th scope="col" >Angkatan</th>
             <th scope="col" >Nama Penyakit</th>
             <th scope="col" class="text-center">Action</th>
           </tr>
@@ -56,21 +58,26 @@
           <tr>
             <td>{{$loop->iteration}}</td>
             <td><a href="/dokter/riwayatpenyakits/{{$name->mhs_id}}" class="text-black">{{$name->nama_mahasiswa}}</a></td>
+            <td>{{$name->prodi_mahasiswa}}</td>
+            <td>{{ $name->angkatan_mahasiswa }}</td>
             <td>
+              @php
+               $count=0;  
+              @endphp
               @foreach ($riwayatpenyakits as $riwayatpenyakit)
-              @if($riwayatpenyakit->mhs_id == $name->mhs_id)
+              @if($riwayatpenyakit->mhs_id == $name->mhs_id && $count<3)
+              @php
+               $count++;
+              @endphp
               - {{ $riwayatpenyakit->nama_penyakit }} <br>
               @endif
               @endforeach
             </td> 
-            <td class="text-center">
+            <td>
               <a href="/dokter/riwayatpenyakits/{{$name->mhs_id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></span></a>
-              {{-- <a href="/dokter/riwayatpenyakits/{{$name->mhs_id}}/edit" class="badge bg-warning"><i class="bi bi-pen"></i></span></a>
-              <form action="/dokter/riwayatpenyakits/{{$name->mhs_id}}" method="post" class="d-inline">
-                @method('delete')
-                @csrf
-                <button class="badge bg-danger text-decoration-none border-0" onclick="return confirm('Yakin ingin menghapus?')"><i class="bi bi-trash3-fill"></i></span></button>
-              </form> --}}
+              @if ($name->no_telp != null)
+              <a href="https://api.whatsapp.com/send/?phone=62{{ $name->no_telp }}" target=".blank" class="badge bg-success"><i class="bi bi-whatsapp"></i></a>
+              @endif
             </td>
           </tr>
           @endforeach

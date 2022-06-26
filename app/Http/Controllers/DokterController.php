@@ -6,6 +6,7 @@ use DB;
 use App\Models\User;
 use App\Models\Dokter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DokterController extends Controller
@@ -50,6 +51,22 @@ class DokterController extends Controller
             'no_telp' => 'nullable|integer',
             'image' => 'image|file|max:1024'
         ]);
+
+        $akun = $request->validate([
+            'username' => 'required|unique:users',
+            'password' => 'required',
+            'repassword' => 'same:password'
+        ]);
+
+        $akun['password'] = Hash::make($request->password);
+        $akun['role'] = 'dokter';
+        $akun['status'] = 1;
+
+        User::create($akun);
+
+        $id_akun =User::where('username',$request->username)->first();
+
+        $validateData['user_id'] = $id_akun['id'];
 
         if($request->file('image')){
             $validateData['image'] = $request->file('image')->store('gambar-dokter');
@@ -145,6 +162,9 @@ class DokterController extends Controller
             Storage::delete($dokter->image);
         }
 
+        if($petugasAsrama->user_id != null){
+            User::destroy($dokter->user_id);
+        }
         Dokter::destroy($dokter->id);
         return redirect('/admin/dokters')->with('success-delete','Data Dokter di hapus!');
     }

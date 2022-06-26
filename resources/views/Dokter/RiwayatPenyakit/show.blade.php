@@ -1,7 +1,6 @@
 @extends('layouts.main-toon')
 
 @section('container') 
-
 <div class="page-inner">
 
 </div>
@@ -47,13 +46,11 @@
           @endforeach
         </tbody>
       </table>
-      <a href="/dokter/riwayatpenyakits" class="btn btn-success"><i class="bi bi-arrow-return-left"></i></a>
-      <a href="/dokter/riwayatpenyakits/{{$riwayatpenyakit->id}}/edit" class="btn bg-warning"><i class="bi bi-pen"></i></span></a>
-      <form action="/dokter/riwayatpenyakits/{{$riwayatpenyakit->id}}" method="post" class="d-inline">
-        @method('delete')
-        @csrf
-        <button class="btn bg-danger text-decoration-none border-0" onclick="return confirm('Yakin ingin menghapus?')"><i class="bi bi-trash3-fill"></i></span></button>
-      </form>
+      
+      <a href="/dokter/riwayatpenyakits" class="btn btn-primary"><i class="bi bi-arrow-return-left"> Kembali</i></a>
+      @if ($mahasiswa->no_telp != null)
+      <a href="https://api.whatsapp.com/send/?phone=62{{ $mahasiswa->no_telp }}" target=".blank" class="btn btn-success"><i class="bi bi-whatsapp"> Whatsapp</i></a>
+      @endif
     </div>
   </div>
 </div>

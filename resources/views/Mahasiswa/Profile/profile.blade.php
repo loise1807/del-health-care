@@ -46,7 +46,7 @@
             <div class="col-md-3">
               @if($mahasiswa->image)
               <div style="overflow:hidden;" class="mt-3 mb-3">
-                <img class="" src="{{ asset('storage/' . $mahasiswa->image) }}" alt="profile-image" style="height: 350px;width:190px">
+                <img class="" src="{{ asset('storage/' . $mahasiswa->image) }}" alt="https://source.unsplash.com/190x350?students" style="height: 350px;width:190px">
               </div>
               @else
               <div style="max-height: 300px; max-width:200px; overflow:hidden;">

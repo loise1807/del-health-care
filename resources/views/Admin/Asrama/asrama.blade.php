@@ -12,7 +12,7 @@
       @endif
 
       <div class="table-responsive col-lg-10">
-      <a href="/admin/asramas/create" class="btn btn-primary mb-3">Tambah Asrama</a>
+      <a href="/admin/asramas/create" class="btn mb-3" style="background-color: #07be94;color:white">Tambah Asrama</a>
         <table class="table table-striped table-sm">
           <thead>
             <tr>

@@ -9,6 +9,33 @@
   
   <form method="post" action="/admin/mahasiswas" enctype="multipart/form-data" class="row g-3">
     @csrf
+    <div class="mb-2 col-md-4">
+      <label for="username" class="form-label"><b>Username</b></label>
+      <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" required value="{{ old('username') }}">
+      @error('username')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+    </div>
+    <div class="mb-2 col-md-4">
+      <label for="password" class="form-label"><b>Password</b></label>
+      <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required value="{{ old('password') }}">
+      @error('password')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+    </div>
+    <div class="mb-2 col-md-4">
+      <label for="repassword" class="form-label"><b>Re-Password</b></label>
+      <input type="password" class="form-control @error('repassword') is-invalid @enderror" id="repassword" name="repassword" required>
+      @error('repassword')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+    </div>
     <div class="mb-2 col-md-6">
       <label for="nim" class="form-label"><b>Nomor Induk Mahasiswa</b></label>
       <input type="text" class="form-control @error('nim') is-invalid @enderror" id="nim" name="nim" required value="{{ old('nim') }}">
@@ -100,11 +127,35 @@
         </div>
         @enderror
       </div>
+    </div><div class="mb-2 col-md-6">
+      <label for="no_bpjs" class="form-label"><b>Nomor BPJS <i style="color: red">* jika ada</i></b></label>
+      <div class="input-group mb-2">
+        <input type="text" class="form-control @error('no_bpjs') is-invalid @enderror" id="no_bpjs" name="no_bpjs" value="{{ old('no_bpjs') }}" placeholder="81234567890">
+        @error('no_bpjs')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+        @enderror
+      </div>
     </div>
+    <div class="mb-2 col-md-6">
+      <label for="status" class="form-label"><b>Status</b></label>
+      <select class="form-select" name="status" id="status">
+        <option value="" selected>Pilih</option>
+        <option value="BPJS Umum">BPJS Umum</option>
+        <option value="Umum">Umum</option>
+      </select>
+      @error('status')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+    </div>
+    
     <div class="mb-2">
       <label for="image" class="form-label "><b>Foto Mahasiswa</b></label>
       <img class="img-preview img-fluid mb-2 col-md-6">
-      <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
+      <input class="form-control @error('image') is-invalid @enderror" type="file" accept="image/*" id="image" name="image" onchange="previewImage()">
       @error('image')
       <div class="invalid-feedback">
         {{ $message }}

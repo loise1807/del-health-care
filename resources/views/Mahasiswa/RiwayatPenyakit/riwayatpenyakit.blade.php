@@ -23,6 +23,7 @@
         <thead>
           <tr>
             <th scope="col" class="">#</th>
+            <th scope="col" class="">Tanggal</th>
             <th scope="col" class="">Nama Penyakit</th>
             <th scope="col" class="">Aksi</th>
           </tr>
@@ -31,6 +32,7 @@
           @foreach($riwayat_penyakits as $riwayat_penyakit)
           <tr>
             <td>{{$loop->iteration}}</td>
+            <td>{{ date('d F Y', strtotime($riwayat_penyakit->created_at)) }}</td>
             <td>{!! $riwayat_penyakit->nama_penyakit !!}</td>
             <td>
               <a href="/mahasiswa/riwayatpenyakits/{{$riwayat_penyakit->id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></a>

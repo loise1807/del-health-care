@@ -20,17 +20,10 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $data = DB::table('mahasiswas')
-                    ->leftjoin('users', 'users.id', '=', 'mahasiswas.user_id')
+        
+        $data = Mahasiswa::leftjoin('users', 'users.id', '=', 'mahasiswas.user_id')
                     ->leftjoin('asramas', 'asramas.id', '=', 'mahasiswas.asrama_id')
                     ->get();
-        // return view('Admin.Mahasiswa.mahasiswa',[
-        //     'mahasiswas' => $data,
-        //     'asramas' => Asrama::all(),
-        //     'users' => User::all('username')
-        // ]);
-
-        // dd($data);
 
         return view('Admin.Mahasiswa.mahasiswa')->with('mahasiswas', $data);
     }
@@ -56,6 +49,7 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
+        $year = date("Y-m-d")-17;
         // return Hash::make($request->password);
         $mahasiswa = $request->validate([
             'asrama_id' => 'required',
@@ -108,8 +102,7 @@ class MahasiswaController extends Controller
      */
     public function show(Mahasiswa $mahasiswa)
     {
-        $data = DB::table('mahasiswas')
-                    ->leftJoin('users', 'users.id', '=', 'mahasiswas.user_id')
+        $data = Mahasiswa::leftJoin('users', 'users.id', '=', 'mahasiswas.user_id')
                     ->leftJoin('asramas', 'asramas.id', '=', 'mahasiswas.asrama_id')
                     ->where('user_id','=',$mahasiswa->user_id)->get();
 
@@ -150,7 +143,7 @@ class MahasiswaController extends Controller
             'alamat' => 'required',
             'alamat' => 'nullable',
             'no_telp' => 'nullable|integer',
-            'tanggal_lahir' => 'nullable',
+            'tanggal_lahir' => 'nullable|before:',
             'image' => 'image|file|max:1024'
         ];
 
@@ -192,8 +185,17 @@ class MahasiswaController extends Controller
             Storage::delete($mahasiswa->image);
         }
         
-        if($petugasAsrama->user_id != null){
+        if($mahasiswa->user_id != null){
             User::destroy($mahasiswa->user_id);
+            $pengirim = Notifikasi::where('penerima_id',$mahasiswa->user_id)->get();
+            $penerima = Notifikasi::where('pengirim_id',$mahasiswa->user_id)->get();
+            foreach ($penerima as $pg){
+                Notifikasi::destroy($pg->id);
+            }
+            
+            foreach ($pengirim as $pm){
+                Notifikasi::destroy($pm->id);
+            }
         }
         Mahasiswa::destroy($mahasiswa->id);
         return redirect('/admin/mahasiswas')->with('success-delete','Data Mahasiswa di hapus!');

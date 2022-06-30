@@ -35,8 +35,13 @@
       </div>
 
       <div class="mb-3">
+      @php
+      $dateNow=date("Y-m-d\TH:i");
+      $dateMin = date('Y-m-d\TH:i', strtotime('+0 days', strtotime($dateNow)));
+      $dateMax = date('Y-m-d\TH:i', strtotime('+14 days', strtotime($dateNow)));
+      @endphp
         <label for="tgl_konsul" class="form-label"><b>Tanggal dan Waktu Konsultasi</b></label>
-        <input type="datetime-local" class="form-control @error('tgl_konsul') is-invalid @enderror col-md-4" name="tgl_konsul" id="tgl_konsul">
+        <input type="datetime-local" max="{{ $dateMax }}" min="{{ $dateMin }}" class="form-control @error('tgl_konsul') is-invalid @enderror col-md-4" name="tgl_konsul" id="tgl_konsul">
         @error('tgl_konsul')
         <div class="invalid-feedback">
           {{ $message }}

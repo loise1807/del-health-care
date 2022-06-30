@@ -16,15 +16,15 @@ class CreateReqKonsulsTable extends Migration
         Schema::create('req_konsuls', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mhs_id');
-            $table->unsignedBigInteger('dokter_id');
-            $table->timestamp('tgl_konsul')->nullable();
+            $table->unsignedBigInteger('dokter_id')->nullable();
+            $table->timestamp('tgl_konsul');
             $table->string('deskripsi');
             $table->string('acc_dokter')->nullable();
             $table->string('status')->default('Menunggu');
             $table->timestamps();
 
-            $table->foreign('mhs_id')->references('id')->on('mahasiswas');
-            $table->foreign('dokter_id')->references('id')->on('dokters');
+            $table->foreign('mhs_id')->references('id')->on('mahasiswas')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('dokter_id')->references('id')->on('dokters')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

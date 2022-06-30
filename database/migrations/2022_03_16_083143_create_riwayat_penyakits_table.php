@@ -19,7 +19,7 @@ class CreateRiwayatPenyakitsTable extends Migration
             $table->string('nama_penyakit');
             $table->timestamps();
 
-            $table->foreign('mhs_id')->references('id')->on('mahasiswas');
+            $table->foreign('mhs_id')->references('id')->on('mahasiswas')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

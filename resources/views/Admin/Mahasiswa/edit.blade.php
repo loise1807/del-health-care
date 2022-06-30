@@ -39,7 +39,7 @@
     </div>
     <div class="mb-2 col-md-6">
       <label for="angkatan" class="form-label"><b>Angkatan Mahasiswa</b></label>
-      <input type="number" class="form-control @error('angkatan') is-invalid @enderror" id="angkatan" name="angkatan" required value="{{ $mahasiswa->angkatan }}">
+      <input type="text" onkeypress="return hanyaAngka(event)" class="form-control @error('angkatan') is-invalid @enderror" id="angkatan" name="angkatan" required value="{{ $mahasiswa->angkatan }}">
       @error('angkatan')
       <div class="invalid-feedback">
         {{ $message }}
@@ -153,7 +153,7 @@
       @enderror
     </div>
     <div class="mb-2 col-md-6">
-      <label for="no_telp" class="form-label"><b><b>No Telepon Mahasiswa</b></b></label>
+      <label for="no_telp"  onkeypress="return hanyaAngka(event)" class="form-label"><b><b>No Telepon Mahasiswa</b></b></label>
       <div class="input-group mb-2">
         <span class="input-group-text" id="basic-addon1">62</span>
         <input type="text" class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" value="{{ $mahasiswa->no_telp }}" placeholder="81234567890">
@@ -195,6 +195,13 @@
       oFReader.onload = function(oFREvent){
         imgPreview.src = oFREvent.target.result;
       }
+    }
+
+    function hanyaAngka(event) {
+      var angka = (event.which) ? event.which : event.keyCode
+      if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
+      return false;
+      return true;
     }
 
   </script>

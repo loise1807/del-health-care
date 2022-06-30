@@ -17,7 +17,7 @@ class CreateMahasiswasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->unique()->nullable();
             $table->unsignedBigInteger('asrama_id')->nullable();;
-            $table->integer('nim')->unique();
+            $table->string('nim')->unique();
             $table->string('nama');
             $table->string('email')->unique();
             $table->string('prodi');

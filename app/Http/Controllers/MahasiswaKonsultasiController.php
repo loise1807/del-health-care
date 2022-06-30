@@ -19,13 +19,23 @@ class MahasiswaKonsultasiController extends Controller
      */
     public function index()
     {
-        $data = DB::table('req_konsuls')
-                    ->orderBy('req_konsuls.tgl_konsul', 'asc')
+        $dateNow=date("Y-m-d\TH:i");
+        
+        $data = ReqKonsul::orderBy('req_konsuls.tgl_konsul', 'asc')
                     ->leftJoin('mahasiswas', 'mahasiswas.id', '=', 'req_konsuls.mhs_id')
                     ->leftJoin('dokters', 'dokters.id', '=', 'req_konsuls.dokter_id')
                     ->select('req_konsuls.*','mahasiswas.nama as nama_mahasiswa','dokters.nama as nama_dokter')
                     ->where('mahasiswas.user_id', auth()->user()->id)
                     ->get();
+        
+        $dataExpired = ReqKonsul::where('acc_dokter',null)->get();
+        // return $dataExpired;
+
+        foreach ($dataExpired as $myData){
+            if ($myData->tgl_konsul < $dateNow){
+                ReqKonsul::find($myData->id)->update(['status' => 'Expired']);
+            }
+        }
 
         return view('Mahasiswa.Konsultasi.konsultasi',[
             'konsultasis' => $data,
@@ -68,7 +78,7 @@ class MahasiswaKonsultasiController extends Controller
         $validateData = $request->validate([
             'mhs_id' => 'required',
             'dokter_id' => 'required',
-            'tgl_konsul' => 'required|max:255',
+            'tgl_konsul' => 'required|max:255|after:now',
             'deskripsi' => 'required|max:255'
         ]);
 

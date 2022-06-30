@@ -41,7 +41,7 @@
     <div class="row g-2">
       <div class="mb-3 col-md-6">
         <label for="no_pegawai_dokter" class="form-label">Nomor Pegawai Dokter</label>
-        <input type="text" class="form-control @error('no_pegawai_dokter') is-invalid @enderror" id="no_pegawai_dokter" name="no_pegawai_dokter" required value="{{ old('no_pegawai_dokter') }}">
+        <input type="text" class="form-control @error('no_pegawai_dokter') is-invalid @enderror" id="no_pegawai_dokter" name="no_pegawai_dokter" required onkeypress="return hanyaAngka(event)" value="{{ old('no_pegawai_dokter') }}">
         @error('no_pegawai_dokter')
         <div class="invalid-feedback">
           {{ $message }}
@@ -73,7 +73,7 @@
         <label for="no_telp" class="form-label"><b>No Telepon</b></label>
         <div class="input-group mb-2">
           <span class="input-group-text" id="basic-addon-no_telp">+62</span>
-          <input type="no_telp" class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" value="{{ old('no_telp') }}">
+          <input type="no_telp" onkeypress="return hanyaAngka(event)" class="form-control @error('no_telp') is-invalid @enderror" id="no_telp" name="no_telp" value="{{ old('no_telp') }}">
           @error('no_telp')
           <div class="invalid-feedback">
             {{ $message }}
@@ -120,6 +120,13 @@
     oFReader.onload = function(oFREvent){
       imgPreview.src = oFREvent.target.result;
     }
+  }
+  
+  function hanyaAngka(event) {
+    var angka = (event.which) ? event.which : event.keyCode
+    if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
+    return false;
+    return true;
   }
 </script>
 

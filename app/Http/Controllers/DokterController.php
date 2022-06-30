@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use DB;
 use App\Models\User;
 use App\Models\Dokter;
+use App\Models\Notifikasi;
+use App\Models\ReqKonsul;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -18,10 +20,10 @@ class DokterController extends Controller
      */
     public function index()
     {
-        $data = DB::table('dokters')
-                    ->leftjoin('users', 'users.id', '=', 'dokters.user_id')
-                    ->get();
+        // return ReqKonsul::where('status','=','Diterima')->orwhere('status','=','Ditolak')->get();
         
+        $data = Dokter::leftjoin('users', 'users.id', '=', 'dokters.user_id')->get();
+        // return $data;
         return view('Admin.Dokter.dokter')->with('dokters', $data);
     }
 
@@ -44,8 +46,8 @@ class DokterController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'no_pegawai_dokter' => 'required|unique:dokters|max:10',
-            'email' => 'email|unique:dokters|max:20',
+            'no_pegawai_dokter' => 'required|unique:dokters|numeric',
+            'email' => 'email|unique:dokters',
             'nama' => 'required|max:100',
             'spesialis' => 'required',
             'no_telp' => 'nullable|integer',
@@ -85,8 +87,7 @@ class DokterController extends Controller
      */
     public function show(Dokter $dokter)
     {
-        $data = DB::table('dokters')
-                    ->leftJoin('users', 'users.id', '=', 'dokters.user_id')
+        $data = Dokter::leftJoin('users', 'users.id', '=', 'dokters.user_id')
                     ->where('user_id','=',$dokter->user_id)->get();
 
         return view('Admin.Dokter.show',[
@@ -158,14 +159,33 @@ class DokterController extends Controller
      */
     public function destroy(Dokter $dokter)
     {
+        $dataDiterima = ReqKonsul::where('dokter_id',$dokter->id)->where('status','Diterima')->orwhere('status','Ditolak')->get();
+
+        foreach($dataDiterima as $dD){
+            ReqKonsul::where('id',$dD->id)->update(['dokter_id' => null]);
+        }
+
+        // return $dokter;
         if($dokter->image){
             Storage::delete($dokter->image);
         }
 
-        if($petugasAsrama->user_id != null){
+        if($dokter->user_id != null){
             User::destroy($dokter->user_id);
+            $pengirim = Notifikasi::where('penerima_id',$dokter->user_id)->get();
+            $penerima = Notifikasi::where('pengirim_id',$dokter->user_id)->get();
+            foreach ($penerima as $pg){
+                Notifikasi::destroy($pg->id);
+            }
+            
+            foreach ($pengirim as $pm){
+                Notifikasi::destroy($pm->id);
+            }
         }
+        
+        
         Dokter::destroy($dokter->id);
+
         return redirect('/admin/dokters')->with('success-delete','Data Dokter di hapus!');
     }
 }

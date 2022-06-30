@@ -56,7 +56,7 @@
           </div>
           
           <a href="/mahasiswa/konsultasi" class="btn btn-success"><i class="bi bi-arrow-return-left"></i></a>
-          @if ($reqKonsul->acc_dokter == null)
+          @if ($reqKonsul->acc_dokter == null && $reqKonsul->status != 'Expired')
           <a href="/mahasiswa/konsultasi/{{$reqKonsul->id}}/edit" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
           <form action="/mahasiswa/konsultasi/{{$reqKonsul->id}}" method="POST" class="d-inline">
             @method('DELETE')

@@ -101,6 +101,22 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Dr. Togap Tambun',
             'spesialis' => 'Psikologi'
         ]);
+
+        Notifikasi::create([
+            'pengirim_id' => 4,
+            'penerima_id' => 2,
+            'judul' => 'judul',
+            'isi' => '0ndlaksda',
+            'status' => 1
+        ]);
+
+        Notifikasi::create([
+            'pengirim_id' => 2,
+            'penerima_id' => 4,
+            'judul' => 'judul',
+            'isi' => '0ndlaksda',
+            'status' => 1
+        ]);
         
         Mahasiswa::create([
             'user_id' => 4,
@@ -216,7 +232,7 @@ class DatabaseSeeder extends Seeder
 
         ReqKonsul::create([
             'mhs_id' => 3,
-            'dokter_id' => 1,
+            'dokter_id' => 2,
             'tgl_konsul' => '2022-04-20',
             'deskripsi' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut quibusdam rem inventore cupiditate impedit delectus sunt earum odio eos nesciunt?',
             'acc_dokter' => 'Tidak Diterima',

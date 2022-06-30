@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           @foreach($konsultasis as $konsultasi)
-          @if($konsultasi->acc_dokter == null)
+          @if($konsultasi->acc_dokter == null && $konsultasi->status != 'Expired')
           <tr>
             <td>{{$konsultasi->nama_dokter}}</td>
             <td class="text-center">{{date('d F Y', strtotime($konsultasi->tgl_konsul))}}</td>
@@ -58,6 +58,8 @@
                   Konsultasi diterima
               @elseif($konsultasi->acc_dokter == 'Tidak Setuju')
                   Konsultasi ditolak
+              @elseif($konsultasi->acc_dokter == 'Expired')
+                  Konsultasi anda
               @endif
             </td>
             <td>{!! $konsultasi->status !!}</td>
@@ -95,7 +97,7 @@
         </thead>
         <tbody>
           @foreach($konsultasis as $konsultasi)
-          @if($konsultasi->acc_dokter == 'Setuju' || $konsultasi->acc_dokter == 'Tidak Setuju')
+          @if($konsultasi->acc_dokter == 'Setuju' || $konsultasi->acc_dokter == 'Tidak Setuju' || $konsultasi->status == 'Expired')
           <tr>
             <td>{{$konsultasi->nama_dokter}}</td>
             <td>{{date('d F Y', strtotime($konsultasi->tgl_konsul))}}</td>
@@ -108,13 +110,14 @@
                   Konsultasi diterima
               @elseif($konsultasi->acc_dokter == 'Tidak Setuju')
                   Konsultasi ditolak
+              @elseif($konsultasi->status == 'Expired')
+                  Konsultasi kadaluarsa
               @endif
             </td>
             <td>{!! $konsultasi->status !!}</td>
             <td>
-              @if ($konsultasi->acc_dokter == null)
+              @if ($konsultasi->acc_dokter != null || $konsultasi->status == 'Expired')
               <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}" class="badge bg-dark"><i class="bi bi-eye-fill"></i></a>
-              <a href="/mahasiswa/konsultasi/{{$konsultasi->id}}/edit" class="badge btn-warning"><i class="bi bi-pencil-fill"></i></a>
               <form action="/mahasiswa/konsultasi/{{$konsultasi->id}}" method="POST" class="d-inline">
                 @method('DELETE')
                 @csrf

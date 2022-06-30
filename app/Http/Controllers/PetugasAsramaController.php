@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Models\User;
 use App\Models\Asrama;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\PetugasAsrama;
 use Illuminate\Support\Facades\Hash;
@@ -19,8 +20,7 @@ class PetugasAsramaController extends Controller
      */
     public function index()
     {
-        $data = DB::table('petugas_asramas')
-                    ->leftjoin('users', 'users.id', '=', 'petugas_asramas.user_id')
+        $data = PetugasAsrama::leftjoin('users', 'users.id', '=', 'petugas_asramas.user_id')
                     ->leftjoin('asramas', 'asramas.id', '=', 'petugas_asramas.asrama_id')
                     ->get();
 
@@ -90,8 +90,7 @@ class PetugasAsramaController extends Controller
      */
     public function show(PetugasAsrama $petugasAsrama)
     {
-        $data = DB::table('petugas_asramas')
-                    ->leftJoin('users', 'users.id', '=', 'petugas_asramas.user_id')
+        $data = PetugasAsrama::leftJoin('users', 'users.id', '=', 'petugas_asramas.user_id')
                     ->leftJoin('asramas', 'asramas.id', '=', 'petugas_asramas.asrama_id')
                     ->where('user_id','=',$petugasAsrama->user_id)->get();
 
@@ -172,6 +171,15 @@ class PetugasAsramaController extends Controller
 
         if($petugasAsrama->user_id != null){
             User::destroy($petugasAsrama->user_id);
+            $pengirim = Notifikasi::where('penerima_id',$petugasAsrama->user_id)->get();
+            $penerima = Notifikasi::where('pengirim_id',$petugasAsrama->user_id)->get();
+            foreach ($penerima as $pg){
+                Notifikasi::destroy($pg->id);
+            }
+            
+            foreach ($pengirim as $pm){
+                Notifikasi::destroy($pm->id);
+            }
         }
         PetugasAsrama::destroy($petugasAsrama->id);
         return redirect('/admin/petugas_asramas')->with('success-delete','Data Pengurus Asrama di hapus!');
